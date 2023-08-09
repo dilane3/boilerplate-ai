@@ -34,8 +34,6 @@ export default function Button({
         fontFamily: "OutfitBold",
       }}
       sx={{
-        // width: "100%",
-        height: "50px",
         borderRadius: "100px",
         outline: "none !important",
         backgroundColor:

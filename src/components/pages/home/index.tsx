@@ -6,11 +6,13 @@ import Input from "../../atoms/inputs/Input";
 export default function HomePage(): React.ReactNode {
   return (
     <Box sx={{ m: 4 }}>
-      <Button>
-        <Text text="Hello World" style={{ fontFamily: "Lexend Bold" }} />
+      <Text text="Welcome back" style={{ fontFamily: "Lexend Black", fontSize: 40 }} />
+
+      <Button style={{ height: 40 }}>
+        <Text text="Hello World" style={{ fontFamily: "Lexend Regular" }} />
       </Button>
 
-      <Input label="Name" helperText="bonus" size="small" width={400} />
+      <Input style={{ mt: 2 }} label="Name" helperText="bonus" size="small" width={400} />
     </Box>
   );
 }
