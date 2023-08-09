@@ -2,6 +2,8 @@ import { Box } from "@mui/material";
 import Button from "../../atoms/buttons/Button";
 import Text from "../../atoms/texts/Text";
 import Input from "../../atoms/inputs/Input";
+import Icon from "../../atoms/icons/Icon";
+import Badge from "../../atoms/badges/Badge";
 
 export default function HomePage(): React.ReactNode {
   return (
@@ -13,6 +15,12 @@ export default function HomePage(): React.ReactNode {
       </Button>
 
       <Input style={{ mt: 2 }} label="Name" helperText="bonus" size="small" width={400} />
+    
+      <Icon>
+        <Text text="B" />
+      </Icon>
+
+      <Badge text="23" />
     </Box>
   );
 }

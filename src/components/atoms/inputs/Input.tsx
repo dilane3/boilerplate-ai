@@ -55,7 +55,7 @@ export default function Input({
           <InputAdornment position="start">{icon}</InputAdornment>
         ) : undefined,
         style: {
-          fontFamily: "OutfitRegular",
+          fontFamily: "Lexend Regular",
           width,
         },
       }}
@@ -68,7 +68,7 @@ const inputStyles = {
   width: "100%",
   borderRadius: "10px",
   fontSize: "16px",
-  fontFamily: "OutfitRegular",
+  fontFamily: "Lexend Regular",
 };
 
 Input.defaultProps = {
