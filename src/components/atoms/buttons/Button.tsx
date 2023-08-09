@@ -5,7 +5,7 @@ type ButtonProps = {
   children: React.ReactNode;
   variant?: "outlined" | "contained" | "text";
   onClick: () => void;
-  styles: SxProps<Theme> | ((theme: Theme) => SxProps<Theme>);
+  style: SxProps<Theme> | ((theme: Theme) => SxProps<Theme>);
   disabled?: boolean;
 };
 
@@ -13,17 +13,17 @@ export default function Button({
   children,
   variant,
   onClick,
-  styles,
+  style,
   disabled,
 }: ButtonProps) {
 
   const getStyles = () => {
-    if (styles) {
-      if (styles instanceof Function) {
-        return styles;
+    if (style) {
+      if (style instanceof Function) {
+        return style;
       }
 
-      return styles;
+      return style;
     }
   }
   
@@ -59,5 +59,5 @@ export default function Button({
 Button.defaultProps = {
   variant: "contained",
   onClick: () => {},
-  styles: {},
+  style: {},
 };
