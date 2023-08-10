@@ -1,7 +1,6 @@
 import { Box, SxProps, Theme } from "@mui/material";
 import Text from "../../atoms/texts/Text";
 import { Colors } from "../../../constants/colors";
-import React from "react";
 
 type TutorialProps = {
   reverse?: boolean;
@@ -29,6 +28,7 @@ export default function Tutorial({ reverse, title, description, btn }: TutorialP
 const styles: Record<string, SxProps<Theme>> = {
   container: (theme) => ({
     display: "flex",
+    width: "100%",
     justifyContent: "space-between",
     alignItems: "center",
 
@@ -39,6 +39,7 @@ const styles: Record<string, SxProps<Theme>> = {
 
   containerReverse: (theme) => ({
     display: "flex",
+    width: "100%",
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row-reverse",

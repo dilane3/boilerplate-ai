@@ -5,7 +5,7 @@ import { Colors, primaryRGBA } from "../../../constants/colors";
 import { Link } from "react-router-dom";
 import useScroll from "../../../hooks/useScroll";
 import { useMemo } from "react";
-import GetAppIcon from '@mui/icons-material/GetApp';
+import GetAppIcon from "@mui/icons-material/GetApp";
 
 type HeaderProps = {
   transparent: boolean;
@@ -47,7 +47,11 @@ export default function Header({
           style={{
             fontFamily: "Lexend Black",
             fontSize: 25,
-            color: !transparent ? Colors.background : Colors.primary,
+            color: transparent
+              ? type === "dashboard"
+                ? Colors.primary
+                : Colors.background
+              : Colors.background,
           }}
         />
       </Link>

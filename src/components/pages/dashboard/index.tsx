@@ -46,7 +46,7 @@ const styles: Record<string, SxProps<Theme>> = {
   title: {
     fontFamily: "Lexend Bold",
     fontSize: 40,
-    mb: 2,
+    my: 2,
   },
 
   subtitle: {

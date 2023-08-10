@@ -10,7 +10,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     <>
       <Header transparent={true} type="dashboard" />
 
-      <Main pt={80}>{children}</Main>
+      <Main pt={60}>{children}</Main>
     </>
   );
 }
