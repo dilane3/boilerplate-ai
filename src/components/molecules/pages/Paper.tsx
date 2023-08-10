@@ -1,8 +1,13 @@
 import { Box, SxProps, Theme } from "@mui/material";
 import { Colors } from "../../../constants/colors";
+import PaperSkeleton from "./PaperSkeleton";
 
 export default function Paper() {
-  return <Box sx={styles.container}></Box>;
+  return (
+    <Box sx={styles.container}>
+      <PaperSkeleton />
+    </Box>
+  );
 }
 
 const styles: Record<string, SxProps<Theme>> = {
@@ -24,6 +29,6 @@ const styles: Record<string, SxProps<Theme>> = {
       minWidth: "200px",
       width: "calc(100% - 80px)",
       padding: "0 20px",
-    }
+    },
   }),
 };
