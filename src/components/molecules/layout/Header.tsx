@@ -5,20 +5,21 @@ import { Colors, primaryRGBA } from "../../../constants/colors";
 import { Link } from "react-router-dom";
 import useScroll from "../../../hooks/useScroll";
 import { useMemo } from "react";
+import GetAppIcon from '@mui/icons-material/GetApp';
 
 type HeaderProps = {
   transparent: boolean;
-  enableBgChange: boolean;
+  type: "default" | "dashboard";
 };
 
 export default function Header({
   transparent,
-  enableBgChange,
+  type,
 }: HeaderProps): React.ReactNode {
   const scrollableContainer = document.querySelector("body");
   const scrollDistance = useScroll(scrollableContainer);
 
-  const { isScrolled, transparentDegree } = useMemo(() => {
+  const { transparentDegree } = useMemo(() => {
     const max = window.innerHeight - 80;
     const degree = scrollDistance / max;
 
@@ -32,10 +33,12 @@ export default function Header({
     <Box
       sx={styles.container}
       style={{
-        backgroundColor:
-          transparent || !isScrolled
-            ? primaryRGBA(transparentDegree)
-            : Colors.primary,
+        backgroundColor: transparent
+          ? type === "dashboard"
+            ? Colors.background
+            : primaryRGBA(transparentDegree)
+          : Colors.primary,
+        borderBottom: type === "dashboard" ? "1px solid #E5E5E5" : "none",
       }}
     >
       <Link to="/">
@@ -49,31 +52,41 @@ export default function Header({
         />
       </Link>
 
-      <Box component="nav" sx={styles.menu}>
-        <Link to="/pricing">
-          <Text text="PRICING" style={styles.menuItem} />
-        </Link>
+      {type === "default" ? (
+        <Box component="nav" sx={styles.menu}>
+          <Link to="/pricing">
+            <Text text="PRICING" style={styles.menuItem} />
+          </Link>
 
-        <Link to="/team">
-          <Text text="CONTACT" style={styles.menuItem} />
-        </Link>
+          <Link to="/team">
+            <Text text="CONTACT" style={styles.menuItem} />
+          </Link>
 
-        <Link to="/auth">
-          <Button
-            style={{ backgroundColor: Colors.background, ml: 3 }}
-            hoverColor={Colors.grayLight}
-          >
-            <Text text="LOGIN" style={styles.btnText} />
+          <Link to="/auth">
+            <Button
+              style={{ backgroundColor: Colors.background, ml: 3 }}
+              hoverColor={Colors.grayLight}
+            >
+              <Text text="LOGIN" style={styles.btnText} />
+            </Button>
+          </Link>
+        </Box>
+      ) : (
+        <Box component="nav" sx={styles.menu}>
+          <Button style={{ ml: 3 }}>
+            <GetAppIcon sx={{ color: Colors.background, mr: 1 }} />
+
+            <Text text="Export" style={styles.btnText2} />
           </Button>
-        </Link>
-      </Box>
+        </Box>
+      )}
     </Box>
   );
 }
 
 Header.defaultProps = {
   transparent: true,
-  enableBgChange: false,
+  type: "default",
 };
 
 const styles: Record<string, SxProps<Theme>> = {
@@ -127,6 +140,12 @@ const styles: Record<string, SxProps<Theme>> = {
 
   btnText: {
     color: Colors.primary,
+    fontFamily: "Lexend Regular",
+    fontSize: 15,
+  },
+
+  btnText2: {
+    color: Colors.background,
     fontFamily: "Lexend Regular",
     fontSize: 15,
   },
