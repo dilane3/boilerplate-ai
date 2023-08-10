@@ -4,7 +4,7 @@ import BaseLayout from "../../layouts/BaseLayout";
 
 export default function TeamPage(): React.ReactNode {
   return (
-    <BaseLayout pt={80}>
+    <BaseLayout pt={80} transparent={false}>
       <Box component="section" sx={styles.container}>
         <Text
           text="Meet the team"

@@ -9,3 +9,7 @@ export const Colors = {
   red: "#f25c54",
   green: "#3FA34D",
 }
+
+export const primaryRGBA = (alpha: number) => {
+  return `rgba(95, 86, 190, ${alpha})`;
+}
