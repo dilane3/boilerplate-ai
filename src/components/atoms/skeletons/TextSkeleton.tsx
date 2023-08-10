@@ -13,7 +13,7 @@ export default function TextSkeleton({ width, mb }: TextSkeletonProps) {
       height={15}
       width={width}
       sx={{
-        animation: "wave 1.5s forwards ease-out 2s",
+        animation: "wave 5s infinite ease-out",
         maxWidth: width,
         mb,
         borderRadius: 2,
@@ -22,6 +22,10 @@ export default function TextSkeleton({ width, mb }: TextSkeletonProps) {
         "@keyframes wave": {
           "0%": {
             width: 100,
+          },
+
+          "50%": {
+            width: "100%",
           },
 
           "100%": {

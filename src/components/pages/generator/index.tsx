@@ -9,18 +9,48 @@ import Configurator from "../../molecules/pages/Configurator";
 import Icon from "../../atoms/icons/Icon";
 import DehazeIcon from "@mui/icons-material/Dehaze";
 import { useState } from "react";
+import { generateLetter } from "../../../api/ai";
+import { formatLetter } from "../../../utils/string";
 
 export default function GeneratorPage(): React.ReactNode {
   const [showConfig, setShowConfig] = useState(false);
+  const [text, setText] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // Some handlers
+
+  const handleGenerateLetter = async () => {
+    setLoading(true);
+
+    const { success, data, error } = await generateLetter(
+      "Generate a letter for me to my mother who live in Cameroon. My name is Dilane"
+    );
+
+    setLoading(false);
+
+    if (success && data) {
+      console.log(data);
+
+      if (data.message && data.message.content) {
+        setText(data.message.content);
+      }
+    } else {
+      console.log(error);
+    }
+  };
 
   return (
     <DashboardLayout>
       <Box sx={styles.container}>
         <Box sx={styles.board}>
-          <Paper />
+          <Paper loading={loading} text={formatLetter(text)} />
 
           <Box sx={styles.floatingBtn}>
-            <Button style={{ height: 50, px: 3 }} disabledShadow={false}>
+            <Button
+              style={{ height: 50, px: 3 }}
+              disabledShadow={false}
+              onClick={handleGenerateLetter}
+            >
               <AutoAwesomeIcon sx={{ mr: 1 }} />
               <Text text="Generate" style={{ fontFamily: "Lexend Regular" }} />
             </Button>
@@ -107,8 +137,8 @@ const styles: Record<string, SxProps<Theme>> = {
 
   floatingIconMenu: (theme) => ({
     position: "fixed",
-    top: 70,
-    right: 10,
+    top: 80,
+    right: 50,
     p: 0.4,
     transition: "all 0.3s ease-in-out",
     borderRadius: "50%",
@@ -124,6 +154,6 @@ const styles: Record<string, SxProps<Theme>> = {
 
     [theme.breakpoints.down("md")]: {
       display: "flex",
-    }
+    },
   }),
 };
