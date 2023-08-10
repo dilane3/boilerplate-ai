@@ -74,7 +74,7 @@ const styles: Record<string, SxProps<Theme>> = {
     },
   }),
 
-  mobileConfig: (theme) => ({
+  mobileConfig: {
     position: "fixed",
     top: 60,
     right: 0,
@@ -86,7 +86,7 @@ const styles: Record<string, SxProps<Theme>> = {
     "&.show": {
       transform: "translateX(0%)",
     },
-  }),
+  },
 
   floatingBtn: (theme) => ({
     position: "fixed",

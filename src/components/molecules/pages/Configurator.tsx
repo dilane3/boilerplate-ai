@@ -37,7 +37,7 @@ export default function Configurator() {
 }
 
 const styles: Record<string, SxProps<Theme>> = {
-  config: (theme) => ({
+  config: {
     display: "flex",
     flexDirection: "column",
     width: 200,
@@ -47,7 +47,7 @@ const styles: Record<string, SxProps<Theme>> = {
     px: 2,
     overflowY: "auto",
     transition: "all 0.3s ease-in-out",
-  }),
+  },
 
   configItem: {
     display: "flex",
