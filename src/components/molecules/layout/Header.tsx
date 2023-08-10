@@ -19,27 +19,15 @@ export default function Header({
       style={{ backgroundColor: transparent ? "transparent" : Colors.primary }}
     >
       <Link to="/">
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            px: 2,
-            py: 1,
-            backgroundColor: showBgLogo ? Colors.primary : "transparent",
-            borderRadius: 3,
+        <Text
+          text="Boilerplate"
+          style={{
+            fontFamily: "Lexend Black",
+            fontSize: 25,
+            color:
+              showBgLogo || !transparent ? Colors.background : Colors.primary,
           }}
-        >
-          <Text
-            text="Boilerplate"
-            style={{
-              fontFamily: "Lexend Black",
-              fontSize: 25,
-              color:
-                showBgLogo || !transparent ? Colors.background : Colors.primary,
-            }}
-          />
-        </Box>
+        />
       </Link>
 
       <Box component="nav" sx={styles.menu}>
@@ -51,12 +39,14 @@ export default function Header({
           <Text text="CONTACT" style={styles.menuItem} />
         </Link>
 
-        <Button
-          style={{ backgroundColor: Colors.background, ml: 3 }}
-          hoverColor={Colors.grayLight}
-        >
-          <Text text="LOGIN" style={styles.btnText} />
-        </Button>
+        <Link to="/auth">
+          <Button
+            style={{ backgroundColor: Colors.background, ml: 3 }}
+            hoverColor={Colors.grayLight}
+          >
+            <Text text="LOGIN" style={styles.btnText} />
+          </Button>
+        </Link>
       </Box>
     </Box>
   );

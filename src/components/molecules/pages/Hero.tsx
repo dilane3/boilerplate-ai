@@ -29,7 +29,7 @@ export default function Hero(): React.ReactNode {
           }}
         />
 
-        <Button style={{ height: 50 }}>
+        <Button style={{ height: 50, px: 4 }}>
           <EditIcon sx={{ mr: 1 }} />
           <Text text="START WRITING" style={{ fontFamily: "Lexend Regular" }} />
         </Button>

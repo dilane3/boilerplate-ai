@@ -6,14 +6,20 @@ type BaseLayoutProps = {
   children: React.ReactNode;
   transparent?: boolean;
   showBgLogo?: boolean;
+  pt?: number;
 };
 
-export default function BaseLayout({ children, transparent, showBgLogo }: BaseLayoutProps) {
+export default function BaseLayout({
+  children,
+  transparent,
+  showBgLogo,
+  pt,
+}: BaseLayoutProps) {
   return (
     <>
       <Header transparent={transparent} showBgLogo={showBgLogo} />
 
-      <Main>{children}</Main>
+      <Main pt={pt}>{children}</Main>
 
       <Footer />
     </>
@@ -23,4 +29,5 @@ export default function BaseLayout({ children, transparent, showBgLogo }: BaseLa
 BaseLayout.defaultProps = {
   transparent: false,
   showBgLogo: false,
-}
+  pt: 0,
+};
