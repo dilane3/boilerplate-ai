@@ -1,22 +1,42 @@
 import { Box, SxProps, Theme } from "@mui/material";
 import Text from "../../atoms/texts/Text";
 import Button from "../../atoms/buttons/Button";
-import { Colors } from "../../../constants/colors";
+import { Colors, primaryRGBA } from "../../../constants/colors";
 import { Link } from "react-router-dom";
+import useScroll from "../../../hooks/useScroll";
+import { useMemo } from "react";
 
 type HeaderProps = {
   transparent: boolean;
-  showBgLogo: boolean;
+  enableBgChange: boolean;
 };
 
 export default function Header({
   transparent,
-  showBgLogo,
+  enableBgChange,
 }: HeaderProps): React.ReactNode {
+  const scrollableContainer = document.querySelector("body");
+  const scrollDistance = useScroll(scrollableContainer);
+
+  const { isScrolled, transparentDegree } = useMemo(() => {
+    const max = window.innerHeight - 80;
+    const degree = scrollDistance / max;
+
+    const isScrolled = scrollDistance > max;
+    const scrollDegree = degree > 1 ? 1 : degree;
+
+    return { isScrolled, transparentDegree: scrollDegree };
+  }, [scrollDistance]);
+
   return (
     <Box
       sx={styles.container}
-      style={{ backgroundColor: transparent ? "transparent" : Colors.primary }}
+      style={{
+        backgroundColor:
+          transparent || !isScrolled
+            ? primaryRGBA(transparentDegree)
+            : Colors.primary,
+      }}
     >
       <Link to="/">
         <Text
@@ -24,8 +44,7 @@ export default function Header({
           style={{
             fontFamily: "Lexend Black",
             fontSize: 25,
-            color:
-              showBgLogo || !transparent ? Colors.background : Colors.primary,
+            color: !transparent ? Colors.background : Colors.primary,
           }}
         />
       </Link>
@@ -54,7 +73,7 @@ export default function Header({
 
 Header.defaultProps = {
   transparent: true,
-  showBgLogo: false,
+  enableBgChange: false,
 };
 
 const styles: Record<string, SxProps<Theme>> = {
@@ -69,6 +88,7 @@ const styles: Record<string, SxProps<Theme>> = {
     width: "calc(100% - 200px)",
     padding: "10px 100px",
     zIndex: 100,
+    transition: "all 0.3s ease-in-out",
 
     [theme.breakpoints.down("md")]: {
       padding: "10px 50px",
