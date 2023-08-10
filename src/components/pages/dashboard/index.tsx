@@ -3,6 +3,7 @@ import DashboardLayout from "../../layouts/DashboardLayout";
 import Text from "../../atoms/texts/Text";
 import Button from "../../atoms/buttons/Button";
 import EditIcon from "@mui/icons-material/Edit";
+import LetterCard from "../../molecules/pages/Letter";
 
 export default function DashbordPage(): React.ReactNode {
   return (
@@ -12,7 +13,11 @@ export default function DashbordPage(): React.ReactNode {
         <Text text="You already have 5 writings" style={styles.subtitle} />
         <Divider />
 
-        <Box sx={styles.writingsContainer}>{/* Letters item here */}</Box>
+        <Box sx={styles.writingsContainer}>
+          <LetterCard/>
+          <LetterCard/>
+          <LetterCard/>
+        </Box>
 
         <Box sx={styles.floatingBtn}>
           <Button style={{ height: 50, px: 3 }} disabledShadow={false}>
@@ -55,14 +60,23 @@ const styles: Record<string, SxProps<Theme>> = {
     mb: 3,
   },
 
-  writingsContainer: {
+  writingsContainer: (theme) => ({
     display: "flex",
+    justifyContent:"space-between",
     flexDirection: "row",
     flexWrap: "wrap",
     gap: "auto",
-    backgroundColor: "red",
+    // backgroundColor: "red",
     mt: 3,
-  },
+    mb: 14,
+
+    [theme.breakpoints.down("lg")]: {
+      justifyContent:"space-between",
+    },
+    [theme.breakpoints.down("sm")]: {
+      justifyContent:"center",
+    },
+  }),
 
   floatingBtn: {
     position: "fixed",
