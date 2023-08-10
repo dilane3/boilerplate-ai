@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, SxProps, Theme } from "@mui/material";
 import { Colors } from "../../../constants/colors";
 

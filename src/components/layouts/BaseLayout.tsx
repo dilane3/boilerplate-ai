@@ -12,12 +12,11 @@ type BaseLayoutProps = {
 export default function BaseLayout({
   children,
   transparent,
-  showBgLogo,
   pt,
 }: BaseLayoutProps) {
   return (
     <>
-      <Header transparent={transparent} showBgLogo={showBgLogo} />
+      <Header transparent={transparent} />
 
       <Main pt={pt}>{children}</Main>
 
@@ -27,7 +26,6 @@ export default function BaseLayout({
 }
 
 BaseLayout.defaultProps = {
-  transparent: false,
-  showBgLogo: false,
+  transparent: true,
   pt: 0,
 };

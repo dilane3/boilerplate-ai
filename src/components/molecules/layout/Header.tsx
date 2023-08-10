@@ -1,22 +1,45 @@
 import { Box, SxProps, Theme } from "@mui/material";
 import Text from "../../atoms/texts/Text";
 import Button from "../../atoms/buttons/Button";
-import { Colors } from "../../../constants/colors";
+import { Colors, primaryRGBA } from "../../../constants/colors";
 import { Link } from "react-router-dom";
+import useScroll from "../../../hooks/useScroll";
+import { useMemo } from "react";
+import GetAppIcon from "@mui/icons-material/GetApp";
 
 type HeaderProps = {
   transparent: boolean;
-  showBgLogo: boolean;
+  type: "default" | "dashboard";
 };
 
 export default function Header({
   transparent,
-  showBgLogo,
+  type,
 }: HeaderProps): React.ReactNode {
+  const scrollableContainer = document.querySelector("body");
+  const scrollDistance = useScroll(scrollableContainer);
+
+  const { transparentDegree } = useMemo(() => {
+    const max = window.innerHeight - 80;
+    const degree = scrollDistance / max;
+
+    const isScrolled = scrollDistance > max;
+    const scrollDegree = degree > 1 ? 1 : degree;
+
+    return { isScrolled, transparentDegree: scrollDegree };
+  }, [scrollDistance]);
+
   return (
     <Box
       sx={styles.container}
-      style={{ backgroundColor: transparent ? "transparent" : Colors.primary }}
+      style={{
+        backgroundColor: transparent
+          ? type === "dashboard"
+            ? Colors.background
+            : primaryRGBA(transparentDegree)
+          : Colors.primary,
+        borderBottom: type === "dashboard" ? "1px solid #E5E5E5" : "none",
+      }}
     >
       <Link to="/">
         <Text
@@ -24,37 +47,50 @@ export default function Header({
           style={{
             fontFamily: "Lexend Black",
             fontSize: 25,
-            color:
-              showBgLogo || !transparent ? Colors.background : Colors.primary,
+            color: transparent
+              ? type === "dashboard"
+                ? Colors.primary
+                : Colors.background
+              : Colors.background,
           }}
         />
       </Link>
 
-      <Box component="nav" sx={styles.menu}>
-        <Link to="/pricing">
-          <Text text="PRICING" style={styles.menuItem} />
-        </Link>
+      {type === "default" ? (
+        <Box component="nav" sx={styles.menu}>
+          <Link to="/pricing">
+            <Text text="PRICING" style={styles.menuItem} />
+          </Link>
 
-        <Link to="/team">
-          <Text text="CONTACT" style={styles.menuItem} />
-        </Link>
+          <Link to="/team">
+            <Text text="CONTACT" style={styles.menuItem} />
+          </Link>
 
-        <Link to="/auth">
-          <Button
-            style={{ backgroundColor: Colors.background, ml: 3 }}
-            hoverColor={Colors.grayLight}
-          >
-            <Text text="LOGIN" style={styles.btnText} />
+          <Link to="/auth">
+            <Button
+              style={{ backgroundColor: Colors.background, ml: 3 }}
+              hoverColor={Colors.grayLight}
+            >
+              <Text text="LOGIN" style={styles.btnText} />
+            </Button>
+          </Link>
+        </Box>
+      ) : (
+        <Box component="nav" sx={styles.menu}>
+          <Button style={{ ml: 3 }}>
+            <GetAppIcon sx={{ color: Colors.background, mr: 1 }} />
+
+            <Text text="Export" style={styles.btnText2} />
           </Button>
-        </Link>
-      </Box>
+        </Box>
+      )}
     </Box>
   );
 }
 
 Header.defaultProps = {
   transparent: true,
-  showBgLogo: false,
+  type: "default",
 };
 
 const styles: Record<string, SxProps<Theme>> = {
@@ -69,6 +105,7 @@ const styles: Record<string, SxProps<Theme>> = {
     width: "calc(100% - 200px)",
     padding: "10px 100px",
     zIndex: 100,
+    transition: "all 0.3s ease-in-out",
 
     [theme.breakpoints.down("md")]: {
       padding: "10px 50px",
@@ -107,6 +144,12 @@ const styles: Record<string, SxProps<Theme>> = {
 
   btnText: {
     color: Colors.primary,
+    fontFamily: "Lexend Regular",
+    fontSize: 15,
+  },
+
+  btnText2: {
+    color: Colors.background,
     fontFamily: "Lexend Regular",
     fontSize: 15,
   },
