@@ -7,6 +7,8 @@ type ButtonProps = {
   onClick: () => void;
   style: SxProps<Theme> | ((theme: Theme) => SxProps<Theme>);
   disabled?: boolean;
+  hoverColor?: string;
+  disabledShadow?: boolean;
 };
 
 export default function Button({
@@ -15,8 +17,9 @@ export default function Button({
   onClick,
   style,
   disabled,
+  hoverColor,
+  disabledShadow,
 }: ButtonProps) {
-
   const getStyles = () => {
     if (style) {
       if (style instanceof Function) {
@@ -25,8 +28,8 @@ export default function Button({
 
       return style;
     }
-  }
-  
+  };
+
   return (
     <BaseButton
       style={{
@@ -38,16 +41,20 @@ export default function Button({
         outline: "none !important",
         backgroundColor:
           variant === "contained" ? Colors.primary : Colors.background,
-          ...getStyles(),
+        ...getStyles(),
+        boxShadow: disabledShadow ? "none" : "0px 2px 4px rgba(0, 0, 0, 0.25)",
 
         "&:hover": {
-          backgroundColor: variant === "contained" ? Colors.secondary : Colors.grayLight,
-        } 
+          backgroundColor:
+            variant === "contained" ? hoverColor : Colors.grayLight,
+          boxShadow: disabledShadow
+            ? "none"
+            : "0px 2px 4px rgba(0, 0, 0, 0.25)",
+        },
       }}
       variant={variant}
       onClick={onClick}
       disabled={disabled}
-      
     >
       {children}
     </BaseButton>
@@ -58,4 +65,6 @@ Button.defaultProps = {
   variant: "contained",
   onClick: () => {},
   style: {},
+  hoverColor: Colors.secondary,
+  disabledShadow: true,
 };
