@@ -3,8 +3,6 @@ import { Configuration, OpenAIApi } from "openai";
 // Settings
 const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY || "";
 
-console.log({ key: OPENAI_API_KEY })
-
 const configuration = new Configuration({
   apiKey: OPENAI_API_KEY,
 });
