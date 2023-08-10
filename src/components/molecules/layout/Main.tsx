@@ -20,18 +20,10 @@ Main.defaultProps = {
 const styles: Record<string, SxProps<Theme>> = {
   container: (theme) => ({
     display: "block",
-    width: "calc(100% - 200px)",
+    width: "100%",
     height: "100%",
-    padding: "20px 100px",
-
-    [theme.breakpoints.down("md")]: {
-      padding: "10px 50px",
-      width: "calc(100% - 100px)",
-    },
-
-    [theme.breakpoints.down("sm")]: {
-      padding: "10px 20px",
-      width: "calc(100% - 40px)",
-    }
+    padding: "20px 0",
+    overflowX: "hidden",
+    overflowY: "auto",
   }),
 };

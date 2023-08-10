@@ -1,19 +1,26 @@
-import Footer from "../molecules/Footer";
-import Header from "../molecules/Header";
-import Main from "../molecules/Main";
+import Footer from "../molecules/layout/Footer";
+import Header from "../molecules/layout/Header";
+import Main from "../molecules/layout/Main";
 
 type BaseLayoutProps = {
   children: React.ReactNode;
-}
+  transparent?: boolean;
+  showBgLogo?: boolean;
+};
 
-export default function BaseLayout({ children }: BaseLayoutProps) {
+export default function BaseLayout({ children, transparent, showBgLogo }: BaseLayoutProps) {
   return (
     <>
-      <Header transparent={false} />
+      <Header transparent={transparent} showBgLogo={showBgLogo} />
 
-      <Main pt={80}>{children}</Main>
+      <Main>{children}</Main>
 
       <Footer />
     </>
-  )
+  );
+}
+
+BaseLayout.defaultProps = {
+  transparent: false,
+  showBgLogo: false,
 }

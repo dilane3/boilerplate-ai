@@ -1,6 +1,6 @@
 import { Box, SxProps, Theme } from "@mui/material";
-import Text from "../atoms/texts/Text";
-import { Colors } from "../../constants/colors";
+import Text from "../../atoms/texts/Text";
+import { Colors } from "../../../constants/colors";
 import { Link } from "react-router-dom";
 
 export default function Footer(): React.ReactNode {
@@ -42,14 +42,14 @@ const styles: Record<string, SxProps<Theme>> = {
     backgroundColor: Colors.secondary,
 
     [theme.breakpoints.down("md")]: {
-      padding: "10px 50px",
+      padding: "20px 50px",
       width: "calc(100% - 100px)",
     },
 
     [theme.breakpoints.down("sm")]: {
-      padding: "10px 20px",
+      padding: "20px",
       width: "calc(100% - 40px)",
-    }
+    },
   }),
 
   top: (theme) => ({
@@ -63,7 +63,7 @@ const styles: Record<string, SxProps<Theme>> = {
       flexDirection: "column",
       alignItems: "flex-start",
       gap: 5,
-    }
+    },
   }),
 
   bottom: {
@@ -71,7 +71,7 @@ const styles: Record<string, SxProps<Theme>> = {
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    mt: 8
+    mt: 8,
   },
 
   item: {

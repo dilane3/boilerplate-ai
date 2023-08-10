@@ -1,7 +1,7 @@
 import { Box, SxProps, Theme } from "@mui/material";
-import Text from "../atoms/texts/Text";
-import Button from "../atoms/buttons/Button";
-import { Colors } from "../../constants/colors";
+import Text from "../../atoms/texts/Text";
+import Button from "../../atoms/buttons/Button";
+import { Colors } from "../../../constants/colors";
 import { Link } from "react-router-dom";
 
 type HeaderProps = {
@@ -24,8 +24,10 @@ export default function Header({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            p: 1,
+            px: 2,
+            py: 1,
             backgroundColor: showBgLogo ? Colors.primary : "transparent",
+            borderRadius: 3,
           }}
         >
           <Text
@@ -86,7 +88,7 @@ const styles: Record<string, SxProps<Theme>> = {
     [theme.breakpoints.down("sm")]: {
       padding: "10px 20px",
       width: "calc(100% - 40px)",
-    }
+    },
   }),
 
   menu: (theme) => ({
@@ -96,7 +98,7 @@ const styles: Record<string, SxProps<Theme>> = {
 
     [theme.breakpoints.down("sm")]: {
       display: "none",
-    }
+    },
   }),
 
   menuItem: {
