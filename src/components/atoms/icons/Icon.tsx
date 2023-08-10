@@ -29,7 +29,7 @@ Icon.defaultProps = {
 };
 
 const styles: Record<string, SxProps<Theme>> = {
-  icon: (theme) => ({
+  icon: {
     width: 40,
     height: 40,
     display: "flex",
@@ -43,5 +43,5 @@ const styles: Record<string, SxProps<Theme>> = {
     "&:hover": {
       backgroundColor: Colors.grayLight,
     },
-  }),
+  },
 };

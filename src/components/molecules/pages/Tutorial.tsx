@@ -1,6 +1,5 @@
 import { Box, SxProps, Theme } from "@mui/material";
 import Text from "../../atoms/texts/Text";
-import Button from "../../atoms/buttons/Button";
 import { Colors } from "../../../constants/colors";
 import React from "react";
 
@@ -96,7 +95,7 @@ const styles: Record<string, SxProps<Theme>> = {
     }
   }),
 
-  btnText: (theme) => ({
+  btnText: {
     fontFamily: "Lexend Regular",
-  }),
+  },
 };

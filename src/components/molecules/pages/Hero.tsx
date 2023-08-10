@@ -95,7 +95,7 @@ const styles: Record<string, SxProps<Theme>> = {
 
     [theme.breakpoints.down("sm")]: {
       "& > p:first-child": {
-        fontSize: 40,
+        fontSize: 50,
       }
     },
   }),

@@ -18,12 +18,12 @@ Main.defaultProps = {
 }
 
 const styles: Record<string, SxProps<Theme>> = {
-  container: (theme) => ({
+  container: {
     display: "block",
     width: "100%",
     height: "100%",
     padding: "20px 0",
     overflowX: "hidden",
     overflowY: "auto",
-  }),
+  },
 };
