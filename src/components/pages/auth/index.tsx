@@ -5,7 +5,7 @@ import {
   Theme 
 } from "@mui/material";
 
-import bgImage from "../../../assets/images/bgSignin.png";
+import bgImage from "../../../assets/images/bg2.jpg";
 import googleIcon from "../../../assets/images/google.png";
 import { Colors } from "../../../constants/colors";
 import Button from "../../atoms/buttons/Button";
