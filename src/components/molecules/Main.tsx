@@ -23,5 +23,15 @@ const styles: Record<string, SxProps<Theme>> = {
     width: "calc(100% - 200px)",
     height: "100%",
     padding: "20px 100px",
+
+    [theme.breakpoints.down("md")]: {
+      padding: "10px 50px",
+      width: "calc(100% - 100px)",
+    },
+
+    [theme.breakpoints.down("sm")]: {
+      padding: "10px 20px",
+      width: "calc(100% - 40px)",
+    }
   }),
 };

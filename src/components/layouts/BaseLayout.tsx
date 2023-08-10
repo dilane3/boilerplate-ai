@@ -1,3 +1,4 @@
+import Footer from "../molecules/Footer";
 import Header from "../molecules/Header";
 import Main from "../molecules/Main";
 
@@ -11,6 +12,8 @@ export default function BaseLayout({ children }: BaseLayoutProps) {
       <Header transparent={false} />
 
       <Main pt={80}>{children}</Main>
+
+      <Footer />
     </>
   )
 }

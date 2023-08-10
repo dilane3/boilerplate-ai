@@ -66,7 +66,7 @@ Header.defaultProps = {
 };
 
 const styles: Record<string, SxProps<Theme>> = {
-  container: {
+  container: (theme) => ({
     position: "fixed",
     top: 0,
     left: 0,
@@ -77,13 +77,27 @@ const styles: Record<string, SxProps<Theme>> = {
     width: "calc(100% - 200px)",
     padding: "10px 100px",
     zIndex: 100,
-  },
 
-  menu: {
+    [theme.breakpoints.down("md")]: {
+      padding: "10px 50px",
+      width: "calc(100% - 100px)",
+    },
+
+    [theme.breakpoints.down("sm")]: {
+      padding: "10px 20px",
+      width: "calc(100% - 40px)",
+    }
+  }),
+
+  menu: (theme) => ({
     display: "flex",
     justifyContent: "flex-end",
     alignItems: "center",
-  },
+
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    }
+  }),
 
   menuItem: {
     fontFamily: "Lexend Regular",

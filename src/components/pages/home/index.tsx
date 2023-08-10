@@ -24,7 +24,7 @@ export default function HomePage(): React.ReactNode {
           label="Name"
           helperText="bonus"
           size="small"
-          width={400}
+          // width={400}
         />
 
         <Icon>
