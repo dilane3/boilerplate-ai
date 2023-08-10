@@ -4,7 +4,7 @@ import Text from "../../atoms/texts/Text";
 import Button from "../../atoms/buttons/Button";
 import EditIcon from "@mui/icons-material/Edit";
 
-export default function Hero(): React.ReactNode {
+export default function Hero() {
   return (
     <Box component="section" sx={styles.container}>
       <Box sx={styles.top}>
