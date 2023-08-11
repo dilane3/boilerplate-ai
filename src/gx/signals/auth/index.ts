@@ -1,5 +1,6 @@
 import { createSignal } from "@dilane3/gx";
 import { AuthState } from "./types";
+import User from "../../../entities/user/User";
 
 const authSignal = createSignal<AuthState>({
   name: "auth",
@@ -7,8 +8,20 @@ const authSignal = createSignal<AuthState>({
     user: null,
     loading: true,
   },
-  actions: {},
-  operations: {},
+  actions: {
+    login: (state, user: User) => {
+      state.user = user;
+      state.loading = false;
+
+      return state;
+    },
+
+    logout: (state) => {
+      state.user = null;
+
+      return state;
+    }
+  }
 });
 
 export default authSignal;

@@ -9,6 +9,7 @@ import { Colors } from "../../../constants/colors";
 import Button from "../../atoms/buttons/Button";
 import Text from "../../atoms/texts/Text";
 import Tutorial from "../../molecules/pages/Tutorial";
+import { Link } from "react-router-dom";
 
 export default function HomePage(): React.ReactNode {
   return (
@@ -50,9 +51,11 @@ export default function HomePage(): React.ReactNode {
           title="Start by creating an account for free"
           description="Before starting writing, you have to create an account in order to save all your writings in a secured place"
           btn={
-            <Button style={{ height: 50, px: 4 }}>
-              <Text text="Create Account" style={styles.btnText} />
-            </Button>
+            <Link to="/auth">
+              <Button style={{ height: 50, px: 4 }}>
+                <Text text="Create Account" style={styles.btnText} />
+              </Button>
+            </Link>
           }
         />
 
@@ -60,9 +63,11 @@ export default function HomePage(): React.ReactNode {
           title="Continue by writing your letters"
           description="After having an account, you can now create a new document and start writing what you want."
           btn={
-            <Button style={{ height: 50, px: 4 }}>
-              <Text text="START WRITING" style={styles.btnText} />
-            </Button>
+            <Link to="/dashboard/writings">
+              <Button style={{ height: 50, px: 4 }}>
+                <Text text="START WRITING" style={styles.btnText} />
+              </Button>
+            </Link>
           }
           reverse
         />
@@ -71,14 +76,16 @@ export default function HomePage(): React.ReactNode {
       <Box component="section" sx={styles.ready}>
         <Text text="Are you ready ?" style={styles.readyTitle} />
 
-        <Button
-          style={{
-            height: 50,
-            px: 4,
-          }}
-        >
-          <Text text="START WRITING" style={styles.btnText} />
-        </Button>
+        <Link to="/dashboard/writings">
+          <Button
+            style={{
+              height: 50,
+              px: 4,
+            }}
+          >
+            <Text text="START WRITING" style={styles.btnText} />
+          </Button>
+        </Link>
       </Box>
     </BaseLayout>
   );

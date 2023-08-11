@@ -1,4 +1,4 @@
-import { Box, SxProps, Theme } from "@mui/material";
+import { Avatar, Box, SxProps, Theme } from "@mui/material";
 import Text from "../../atoms/texts/Text";
 import Button from "../../atoms/buttons/Button";
 import { Colors, primaryRGBA } from "../../../constants/colors";
@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 import useScroll from "../../../hooks/useScroll";
 import { useMemo } from "react";
 import GetAppIcon from "@mui/icons-material/GetApp";
+import { useSignal } from "@dilane3/gx";
+import { AuthState } from "../../../gx/signals/auth/types";
+import { capitalize, truncate } from "../../../utils/string";
 
 type HeaderProps = {
   transparent: boolean;
@@ -18,6 +21,9 @@ export default function Header({
 }: HeaderProps): React.ReactNode {
   const scrollableContainer = document.querySelector("body");
   const scrollDistance = useScroll(scrollableContainer);
+
+  // Global state
+  const { user } = useSignal<AuthState>("auth");
 
   const { transparentDegree } = useMemo(() => {
     const max = window.innerHeight - 80;
@@ -66,23 +72,46 @@ export default function Header({
             <Text text="CONTACT" style={styles.menuItem} />
           </Link>
 
-          <Link to="/auth">
-            <Button
-              style={{ backgroundColor: Colors.background, ml: 3 }}
-              hoverColor={Colors.grayLight}
-            >
-              <Text text="LOGIN" style={styles.btnText} />
-            </Button>
-          </Link>
+          {!user ? (
+            <Link to="/auth">
+              <Button
+                style={{ backgroundColor: Colors.background, ml: 3 }}
+                hoverColor={Colors.grayLight}
+              >
+                <Text text="LOGIN" style={styles.btnText} />
+              </Button>
+            </Link>
+          ) : (
+            <Link to="/dashboard/writings">
+              <Button
+                style={{ backgroundColor: Colors.background, ml: 3 }}
+                hoverColor={Colors.grayLight}
+              >
+                <Text text="Dashboard" style={styles.btnText} />
+              </Button>
+            </Link>
+          )}
         </Box>
       ) : (
-        <Box component="nav" sx={styles.menu}>
-          <Button style={{ ml: 3 }}>
-            <GetAppIcon sx={{ color: Colors.background, mr: 1 }} />
+        user && (
+          <Box component="nav" sx={styles.menu}>
+            <Button style={{ ml: 3, mr: 3 }}>
+              <GetAppIcon sx={{ color: Colors.background, mr: 1 }} />
 
-            <Text text="Export" style={styles.btnText2} />
-          </Button>
-        </Box>
+              <Text text="Export" style={styles.btnText2} />
+            </Button>
+
+            <Avatar
+              sx={{ bgcolor: Colors.primary }}
+              alt={user.username}
+              src={user.avatar}
+            />
+            <Text
+              text={capitalize(truncate(user.email, 7))}
+              style={styles.senderName}
+            />
+          </Box>
+        )
       )}
     </Box>
   );
@@ -152,5 +181,10 @@ const styles: Record<string, SxProps<Theme>> = {
     color: Colors.background,
     fontFamily: "Lexend Regular",
     fontSize: 15,
+  },
+  senderName: {
+    fontFamily: "Lato Bold",
+    paddingLeft: "10px",
+    fontSize: 16,
   },
 };
