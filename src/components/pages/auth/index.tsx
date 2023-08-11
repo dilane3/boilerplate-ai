@@ -11,8 +11,14 @@ import { Colors } from "../../../constants/colors";
 import Button from "../../atoms/buttons/Button";
 import Text from "../../atoms/texts/Text";
 import { Link } from "react-router-dom";
+import { authProvider } from "../../../api/auth";
 
 export default function AuthPage(): React.ReactNode {
+  // Handlers
+  const handleGoogleLogin = async () => {
+    await authProvider.googleLogin();
+  };
+
   return (
     <Box sx={styles.container}>
       <Box sx={styles.login}>
@@ -28,6 +34,7 @@ export default function AuthPage(): React.ReactNode {
             mb: 3,
             width: "100%",
           }}
+          onClick={handleGoogleLogin}
         >
           <img
             src={googleIcon}
