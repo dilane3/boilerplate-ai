@@ -9,7 +9,7 @@ const authSignal = createSignal<AuthState>({
     loading: true,
   },
   actions: {
-    login: (state, user: User) => {
+    login: (state, user: User | null) => {
       state.user = user;
       state.loading = false;
 
