@@ -8,11 +8,14 @@ import Text from "../../atoms/texts/Text";
 
 import letter from "../../../assets/images/lettre.png";
 import Icon from "../../atoms/icons/Icon";
+import { useNavigate } from "react-router-dom";
 
 export default function LetterCard() {
+  const navigate = useNavigate();
+
   return (
     <Card sx={styles.container}>
-      <CardActionArea>
+      <CardActionArea onClick={() => navigate("/dashboard/writings/2")}>
         <Icon
           style={{
             fontSize: "24px",
@@ -44,7 +47,7 @@ const styles: Record<string, SxProps<Theme>> = {
     marginTop: "20px",
 
     [theme.breakpoints.down("sm")]: {
-      width: "80%",
+      width: "100%",
     },
   }),
 

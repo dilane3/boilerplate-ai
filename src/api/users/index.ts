@@ -38,8 +38,7 @@ export const userProvider = {
       const { data, error } = await supabaseClient
         .from("users")
         .select("*")
-        .eq("uid", payload.uid)
-        .single();
+        .eq("uid", payload.uid);
 
       if (error) {
         return {

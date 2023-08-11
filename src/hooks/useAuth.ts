@@ -30,10 +30,14 @@ export default function useAuth() {
           uid: userData.id,
         });
 
-        if (data) {
-          const user = new User(data);
+        console.log({ data })
+
+        if (data && data?.length > 0) {
+          const user = new User(data[0]);
 
           login(user);
+
+          return;
         }
 
         login(null);
@@ -58,8 +62,10 @@ export default function useAuth() {
       uid: data.id,
     });
 
-    if (success) {
-      if (!userData) {
+    console.log({ success, data: userData, error: userError });
+
+    if (success && userData) {
+      if (userData.length === 0) {
         // User is not registered, so we register it
         const { error } = await userProvider.createUser({
           email: data.email,

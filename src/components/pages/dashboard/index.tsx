@@ -63,19 +63,18 @@ const styles: Record<string, SxProps<Theme>> = {
 
   writingsContainer: (theme) => ({
     display: "flex",
-    justifyContent:"space-between",
     flexDirection: "row",
+    justifyContent: "flex-start",
     flexWrap: "wrap",
-    gap: "auto",
+    gap: 2,
     // backgroundColor: "red",
     mt: 3,
     mb: 14,
 
-    [theme.breakpoints.down("lg")]: {
-      justifyContent:"space-between",
-    },
-    [theme.breakpoints.down("sm")]: {
-      justifyContent:"center",
+    [theme.breakpoints.down("md")]: {
+      justifyContent:"flex-start",
+      alignItems: "center",
+      flexDirection: "column",
     },
   }),
 
