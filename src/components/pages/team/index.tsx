@@ -1,6 +1,7 @@
 import { Box, Divider, SxProps, Theme } from "@mui/material";
 import Text from "../../atoms/texts/Text";
 import BaseLayout from "../../layouts/BaseLayout";
+import Member from "../../molecules/pages/Member";
 
 export default function TeamPage(): React.ReactNode {
   return (
@@ -15,7 +16,7 @@ export default function TeamPage(): React.ReactNode {
           }}
         />
 
-        <Text 
+        <Text
           text="Here is the ones who contribute to the development of this nice tool."
           style={{
             fontFamily: "Lato Regular",
@@ -25,6 +26,11 @@ export default function TeamPage(): React.ReactNode {
         />
 
         <Divider />
+
+        <Box sx={styles.membersContainer}>
+          <Member />
+          <Member />
+        </Box>
       </Box>
     </BaseLayout>
   );
@@ -45,6 +51,16 @@ const styles: Record<string, SxProps<Theme>> = {
     [theme.breakpoints.down("sm")]: {
       padding: "0px 20px",
       width: "calc(100% - 40px)",
+    },
+  }),
+  membersContainer: (theme) => ({
+    display: "flex",
+    justifyContent: "space-between",
+    marginBottom: "50px",
+
+    [theme.breakpoints.down("md")]: {
+      justifyContent: "center",
+      flexDirection: "column",
     },
   }),
 };

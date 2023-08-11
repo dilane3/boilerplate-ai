@@ -160,7 +160,7 @@ const styles: Record<string, SxProps<Theme>> = {
     },
   }),
 
-  condition: (theme) => ({
+  condition: {
     fontFamily: "Lato Bold",
     cursor: "pointer",
     fontSize: 16,
@@ -170,7 +170,7 @@ const styles: Record<string, SxProps<Theme>> = {
     "&:hover": {
       textDecoration: "underline",
     },
-  }),
+  },
   bg: {
     position: "fixed",
     top: 0,

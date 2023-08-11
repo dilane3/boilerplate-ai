@@ -1,5 +1,4 @@
 import { Box, SxProps, Theme } from "@mui/material";
-import { Colors } from "../../../constants/colors";
 
 type IconProps = {
   children: React.ReactNode;
@@ -40,7 +39,7 @@ const styles: Record<string, SxProps<Theme>> = {
     padding: 0.5,
 
     "&:hover": {
-      backgroundColor: Colors.grayLight,
+      backgroundColor: "rgba(0, 0, 0, 0.1)",
     },
   },
 };
