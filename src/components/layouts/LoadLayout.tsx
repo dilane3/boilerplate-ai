@@ -22,17 +22,17 @@ export default function LoadLayout({ children }: LoadLayoutProps) {
   // Use Effects
 
   useEffect(() => {
-    window.addEventListener("load", handleLoad);
+    const initialize = async () => {
+      await handleLoad();
+    }
 
-    return () => {
-      window.removeEventListener("load", handleLoad);
-    };
+    initialize();
   }, [bodyContainer]);
 
   // Some handlers
 
   const handleLoad = async () => {
-    await sleep(3000);
+    await sleep(5000);
 
     setLoading(false);
   };

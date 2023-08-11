@@ -102,7 +102,7 @@ export default function Header({
             </Button>
 
             <Avatar
-              sx={{ bgcolor: Colors.primary }}
+              sx={{ bgcolor: user.color }}
               alt={user.username}
               src={user.avatar}
             />
