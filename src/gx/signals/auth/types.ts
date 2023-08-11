@@ -6,7 +6,7 @@ export type AuthState = {
 }
 
 export type AuthActions = {
-  login: (user: User) => void;
+  login: (user: User | null) => void;
   logout: () => void;
 }
 
