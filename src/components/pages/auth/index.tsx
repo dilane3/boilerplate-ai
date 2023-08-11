@@ -1,86 +1,93 @@
-import { 
-  Box, 
-  // Button, 
-  SxProps, 
-  Theme 
+import {
+  Box,
+  // Button,
+  SxProps,
+  Theme,
 } from "@mui/material";
 
 import bgImage from "../../../assets/images/bg2.jpg";
 import googleIcon from "../../../assets/images/google.png";
 import { Colors } from "../../../constants/colors";
 import Button from "../../atoms/buttons/Button";
-import Text from "../../atoms/texts/Text"
+import Text from "../../atoms/texts/Text";
+import { Link } from "react-router-dom";
 
 export default function AuthPage(): React.ReactNode {
-
   return (
     <Box sx={styles.container}>
       <Box sx={styles.login}>
-        <Text
-          text="Login into your account"
-          style={{
-            fontFamily: "Lexend Black",
-            fontSize: 50,
-            color: "#fff",
-            lineHeight: 1.2,
-            mb: 7,
-            mt:3,
-          }}
-        />
+        <Text text="Login into your account" style={styles.title} />
 
-        <Button  variant="text" style={{ height: 60, px: 4, backgroundColor:"#FFF", borderRadius:"10px", mb:3, width:"100%"  }}>
-          <img src={googleIcon} style={{height: "30px", width:"30px", position:"relative", left:"-20px"}} />
-          <Text 
-            text="continue with Google" 
-            style={{ 
-              fontFamily: "Lato Regular" ,
+        <Button
+          variant="text"
+          style={{
+            height: 50,
+            px: 4,
+            backgroundColor: "#FFF",
+            borderRadius: "10px",
+            mb: 3,
+            width: "100%",
+          }}
+        >
+          <img
+            src={googleIcon}
+            style={{
+              height: "30px",
+              width: "30px",
+              position: "relative",
+              left: "-20px",
+            }}
+          />
+          <Text
+            text="Google"
+            style={{
+              fontFamily: "Lato Regular",
               color: Colors.blackBold,
-              fontSize: 25,
-              paddingLeft:"10px",
-              textTransform: 'lowercase',
-            }} 
+              fontSize: 20,
+              paddingLeft: "10px",
+              textTransform: "capitalize",
+            }}
           />
         </Button>
         <Text
           text="We are responsible for the security of your writings. Login and start writing."
           style={{
             fontFamily: "Lato Regular",
-            fontSize: 20,
+            fontSize: 16,
             color: "#fff",
             mb: 3,
           }}
         />
-        <Box 
+        <Box
           sx={{
-            display:"flex",
-            mb: 4
-          }}>
+            display: "flex",
+            mb: 4,
+          }}
+        >
           <Text
             text="Check our "
             style={{
               fontFamily: "Lato Regular",
-              fontSize: 20,
+              fontSize: 16,
               color: "#fff",
-              
             }}
           />
-          <Text
-            text="terms and conditions."
-            style={styles.condition}
-          />
+          <Text text="terms and conditions." style={styles.condition} />
         </Box>
-        <Text
-          text="Boilerplate."
-          style={{
-            fontFamily: "Lexend Bold",
-            fontSize: 30,
-            color: "#fff",
-            mb: 3,
-          }}
-        />
 
+        <Link to="/">
+          <Text
+            text="Boilerplate."
+            style={{
+              fontFamily: "Lexend Bold",
+              fontSize: 20,
+              color: "#fff",
+              mb: 3,
+            }}
+          />
+        </Link>
       </Box>
-      <Box sx={styles.bg} />
+      {/* <Box sx={styles.bg} /> */}
     </Box>
   );
 }
@@ -89,51 +96,80 @@ const styles: Record<string, SxProps<Theme>> = {
   container: (theme) => ({
     position: "relative",
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
     alignItems: "center",
     width: "100%",
-    height: "100vh",
+    height: "calc(100vh - 80px)",
     backgroundImage: `url(${bgImage})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
+    overflowY: "auto",
+    padding: "40px",
 
     [theme.breakpoints.down("sm")]: {
+      alignItems: "flex-start",
+      padding: "20px",
+      height: "calc(100vh - 40px)",
+    },
 
+    "@media (max-height: 550px)": {
+      alignItems: "flex-start",
     },
   }),
-  login:(theme) => ({
+
+  login: (theme) => ({
     display: "flex",
-    flexDirection:"column",
-    justifyContent: "space-between",
+    flexDirection: "column",
+    justifyContent: "center",
     alignItems: "flex-start",
-    marginLeft:"10%",
-    width: "360px",
-    height: "80vh",
-    padding:"40px",
+    width: "calc(320px - 20px)",
+    height: "calc(100vh - 160px)",
+    padding: "40px 80px",
     backgroundColor: Colors.primary,
-    borderRadius:"20px",
+    borderRadius: "20px",
     zIndex: 30,
+
+    "@media (max-height: 600px)": {
+      height: 400,
+    },
+
+    [theme.breakpoints.down("sm")]: {
+      width: "calc(100% - 120px)",
+      padding: "40px",
+    },
   }),
 
-  condition:(theme) => ({
-    fontFamily: "Lato Bold",
-    cursor:"pointer",
-    fontSize: 20,
+  title: (theme) => ({
+    fontFamily: "Lexend Black",
+    fontSize: 40,
     color: "#fff",
-    paddingLeft:"8px",
+    lineHeight: 1.2,
+    mb: 5,
+    mt: 3,
 
-    '&:hover':{
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 30,
+    },
+  }),
+
+  condition: (theme) => ({
+    fontFamily: "Lato Bold",
+    cursor: "pointer",
+    fontSize: 16,
+    color: "#fff",
+    paddingLeft: "8px",
+
+    "&:hover": {
       textDecoration: "underline",
-    }
+    },
   }),
   bg: {
-    position: "absolute",
+    position: "fixed",
     top: 0,
     left: 0,
     width: "100%",
     height: "100vh",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-  }
-
+  },
 };
