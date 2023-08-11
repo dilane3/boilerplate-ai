@@ -13,7 +13,7 @@ export default function Paper({ loading, text }: PaperProps) {
       {loading ? (
         <PaperSkeleton />
       ) : (
-        <Box contentEditable={true} sx={styles.paper}>
+        <Box contentEditable={true} sx={styles.paper} id="letter">
           <div dangerouslySetInnerHTML={{ __html: text }} />
         </Box>
       )}
@@ -29,7 +29,7 @@ const styles: Record<string, SxProps<Theme>> = {
   container: (theme) => ({
     width: "calc(100% - 300px)",
     minWidth: "400px",
-    minHeight: "2700px",
+    minHeight: "700px",
     padding: "100px",
     backgroundColor: Colors.background,
     boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",

@@ -8,14 +8,23 @@ import Paper from "../../molecules/pages/Paper";
 import Configurator from "../../molecules/pages/Configurator";
 import Icon from "../../atoms/icons/Icon";
 import DehazeIcon from "@mui/icons-material/Dehaze";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { generateLetter } from "../../../api/ai";
 import { formatLetter } from "../../../utils/string";
+import useConvertToPng from "../../../hooks/useConvertToPng";
 
 export default function GeneratorPage(): React.ReactNode {
   const [showConfig, setShowConfig] = useState(false);
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const image = useConvertToPng(text);
+
+  useEffect(() => {
+    if (image) {
+      localStorage.setItem("image", image);
+    }
+  }, [image]);
 
   // Some handlers
 

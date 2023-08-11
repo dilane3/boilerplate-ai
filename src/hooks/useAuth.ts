@@ -30,8 +30,6 @@ export default function useAuth() {
           uid: userData.id,
         });
 
-        console.log({ data })
-
         if (data && data?.length > 0) {
           const user = new User(data[0]);
 
@@ -61,8 +59,6 @@ export default function useAuth() {
     } = await userProvider.getUser({
       uid: data.id,
     });
-
-    console.log({ success, data: userData, error: userError });
 
     if (success && userData) {
       if (userData.length === 0) {

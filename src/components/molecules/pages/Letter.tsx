@@ -9,6 +9,9 @@ import Text from "../../atoms/texts/Text";
 import letter from "../../../assets/images/lettre.png";
 import Icon from "../../atoms/icons/Icon";
 import { useNavigate } from "react-router-dom";
+import { toPng } from "html-to-image";
+import { useEffect } from "react";
+import * as React from "react";
 
 export default function LetterCard() {
   const navigate = useNavigate();
@@ -27,7 +30,13 @@ export default function LetterCard() {
         >
           <MoreVertIcon />
         </Icon>
-        <CardMedia component="img" height="300" image={letter} alt="letter" />
+        <CardMedia
+          component="img"
+          height="300"
+          image={localStorage.getItem("image") || ""}
+          alt="letter"
+          sx={styles.image}
+        />
         <CardContent>
           <Text text="Lettre de motivation" style={styles.title} />
           <Box sx={styles.since}>
@@ -80,4 +89,11 @@ const styles: Record<string, SxProps<Theme>> = {
 
     [theme.breakpoints.down("sm")]: {},
   }),
+
+  image: {
+    width: "calc(100% - 40px)",
+    objectFit: "cover",
+    objectPosition: "top",
+    p: 2
+  }
 };
