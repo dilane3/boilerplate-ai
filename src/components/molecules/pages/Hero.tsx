@@ -3,6 +3,7 @@ import bgImage from "../../../assets/images/bg1.png";
 import Text from "../../atoms/texts/Text";
 import Button from "../../atoms/buttons/Button";
 import EditIcon from "@mui/icons-material/Edit";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
   return (
@@ -29,10 +30,15 @@ export default function Hero() {
           }}
         />
 
-        <Button style={{ height: 50, px: 4 }}>
-          <EditIcon sx={{ mr: 1 }} />
-          <Text text="START WRITING" style={{ fontFamily: "Lexend Regular" }} />
-        </Button>
+        <Link to="/dashboard/writings">
+          <Button style={{ height: 50, px: 4 }}>
+            <EditIcon sx={{ mr: 1 }} />
+            <Text
+              text="START WRITING"
+              style={{ fontFamily: "Lexend Regular" }}
+            />
+          </Button>
+        </Link>
       </Box>
 
       <Box sx={styles.bg} />
@@ -90,13 +96,13 @@ const styles: Record<string, SxProps<Theme>> = {
 
       "& > p:first-child": {
         fontSize: 50,
-      }
+      },
     },
 
     [theme.breakpoints.down("sm")]: {
       "& > p:first-child": {
         fontSize: 50,
-      }
+      },
     },
   }),
 
@@ -107,5 +113,5 @@ const styles: Record<string, SxProps<Theme>> = {
     width: "100%",
     height: "100vh",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-  }
+  },
 };
