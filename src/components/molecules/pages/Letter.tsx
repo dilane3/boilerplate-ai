@@ -8,15 +8,20 @@ import AlarmIcon from '@mui/icons-material/Alarm';
 import Text from '../../atoms/texts/Text';
 
 import letter from '../../../assets/images/lettre.png'
+import Icon from '../../atoms/icons/Icon';
 
 export default function LetterCard() {
   return (
     <Card sx={styles.container}>
       <CardActionArea>
-        <MoreVertIcon sx={{fontSize: "24px", color:"#FFF", position:"absolute", right:"10px", top:"10px"}}/>
+        <Icon
+            style={{fontSize: "24px", color:"#FFF", position:"absolute", right:"10px", top:"10px"}}
+        >
+         <MoreVertIcon />
+        </Icon>
         <CardMedia
           component="img"
-          height="180"
+          height="300"
           image={letter}
           alt="letter"
         />

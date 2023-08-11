@@ -1,4 +1,4 @@
-import { Box, SxProps, Theme } from "@mui/material";
+import { Avatar, Box, SxProps, Theme } from "@mui/material";
 import Text from "../../atoms/texts/Text";
 import Button from "../../atoms/buttons/Button";
 import { Colors, primaryRGBA } from "../../../constants/colors";
@@ -7,14 +7,18 @@ import useScroll from "../../../hooks/useScroll";
 import { useMemo } from "react";
 import GetAppIcon from "@mui/icons-material/GetApp";
 
+import profif from "../../../assets/images/profil.jpg";
+
 type HeaderProps = {
   transparent: boolean;
   type: "default" | "dashboard";
+  profil: boolean;
 };
 
 export default function Header({
   transparent,
   type,
+  profil,
 }: HeaderProps): React.ReactNode {
   const scrollableContainer = document.querySelector("body");
   const scrollDistance = useScroll(scrollableContainer);
@@ -75,14 +79,28 @@ export default function Header({
             </Button>
           </Link>
         </Box>
-      ) : (
-        <Box component="nav" sx={styles.menu}>
-          <Button style={{ ml: 3 }}>
-            <GetAppIcon sx={{ color: Colors.background, mr: 1 }} />
+      ) : ( 
+        profil?(
+          <Box component="nav" sx={styles.menu}>
+            <Avatar
+              sx={{ bgcolor: Colors.primary }}
+              alt="Profil"
+              src={profif}
+            />
+            <Text text="Dilane3" style={styles.senderName} />
 
-            <Text text="Export" style={styles.btnText2} />
-          </Button>
-        </Box>
+          </Box>
+
+        ):(
+
+          <Box component="nav" sx={styles.menu}>
+            <Button style={{ ml: 3 }}>
+              <GetAppIcon sx={{ color: Colors.background, mr: 1 }} />
+
+              <Text text="Export" style={styles.btnText2} />
+            </Button>
+          </Box>
+        )
       )}
     </Box>
   );
@@ -153,4 +171,9 @@ const styles: Record<string, SxProps<Theme>> = {
     fontFamily: "Lexend Regular",
     fontSize: 15,
   },
+  senderName:{
+    fontFamily: "Lexend Bold",
+    paddingLeft:"10px",
+    fontSize: 18,
+  }
 };

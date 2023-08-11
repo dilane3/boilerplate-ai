@@ -1,13 +1,14 @@
 import { Box, Divider, SxProps, Theme } from "@mui/material";
-import DashboardLayout from "../../layouts/DashboardLayout";
+import DashboardProfilLayout from "../../layouts/DashboardProfilLayout";
 import Text from "../../atoms/texts/Text";
 import Button from "../../atoms/buttons/Button";
 import EditIcon from "@mui/icons-material/Edit";
 import LetterCard from "../../molecules/pages/Letter";
 
+
 export default function DashbordPage(): React.ReactNode {
   return (
-    <DashboardLayout>
+    <DashboardProfilLayout>
       <Box component="section" sx={styles.container}>
         <Text text="Yours writings" style={styles.title} />
         <Text text="You already have 5 writings" style={styles.subtitle} />
@@ -26,7 +27,7 @@ export default function DashbordPage(): React.ReactNode {
           </Button>
         </Box>
       </Box>
-    </DashboardLayout>
+    </DashboardProfilLayout>
   );
 }
 
