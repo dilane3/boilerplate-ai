@@ -2,6 +2,7 @@ import { Box, Divider, SxProps, Theme } from "@mui/material";
 import Text from "../../atoms/texts/Text";
 import BaseLayout from "../../layouts/BaseLayout";
 import Member from "../../molecules/pages/Member";
+import { team } from "./team.json";
 
 export default function TeamPage(): React.ReactNode {
   return (
@@ -28,8 +29,11 @@ export default function TeamPage(): React.ReactNode {
         <Divider />
 
         <Box sx={styles.membersContainer}>
-          <Member />
-          <Member />
+          {
+            team.map(member => (
+              <Member key={member.id} member={member} />
+            ))
+          }
         </Box>
       </Box>
     </BaseLayout>

@@ -8,10 +8,11 @@ import { useActions, useSignal } from "@dilane3/gx";
 import { WritingState } from "../../../gx/signals/writings/types";
 import { ModalActions, ModalType } from "../../../gx/signals/modal/types";
 import { Colors } from "../../../constants/colors";
+import LetterSkeleton from "../../molecules/pages/LetterSkeletong";
 
 export default function DashbordPage(): React.ReactNode {
   // Global state
-  const { writings } = useSignal<WritingState>("writings");
+  const { writings, loading } = useSignal<WritingState>("writings");
 
   const { open } = useActions<ModalActions>("modal");
 
@@ -23,13 +24,26 @@ export default function DashbordPage(): React.ReactNode {
     <DashboardLayout>
       <Box component="section" sx={styles.container}>
         <Text text="Yours writings" style={styles.title} />
-        <Text text="You already have 5 writings" style={styles.subtitle} />
+        <Text
+          text={`You already have ${writings.length} writing${
+            writings.length > 1 ? "s" : ""
+          }`}
+          style={styles.subtitle}
+        />
         <Divider />
 
         <Box sx={styles.writingsContainer}>
-          {writings.map((writing) => (
-            <LetterCard key={writing.id} letter={writing} />
-          ))}
+          {loading ? (
+            <>
+              <LetterSkeleton />
+              <LetterSkeleton />
+              <LetterSkeleton />
+            </>
+          ) : (
+            writings.map((writing) => (
+              <LetterCard key={writing.id} letter={writing} />
+            ))
+          )}
         </Box>
 
         <Box sx={styles.floatingBtn}>

@@ -26,6 +26,7 @@ import {
   WritingState,
 } from "../../../gx/signals/writings/types";
 import { exportToWord } from "../../../utils/export";
+import { toast } from "react-toastify";
 
 type HeaderProps = {
   transparent: boolean;
@@ -100,6 +101,8 @@ export default function Header({
     if (!writing) return;
 
     exportToWord(writing.content, writing.description);
+
+    toast.success(`your writing has been exported`);
   };
 
   return (
@@ -135,9 +138,9 @@ export default function Header({
 
       {type === "default" ? (
         <Box component="nav" sx={styles.menu}>
-          <Link to="/pricing">
+          {/* <Link to="/pricing">
             <Text text="PRICING" style={styles.menuItem} />
-          </Link>
+          </Link> */}
 
           <Link to="/team">
             <Text text="CONTACT" style={styles.menuItem} />

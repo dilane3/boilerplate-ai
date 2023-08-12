@@ -1,29 +1,34 @@
 import { Skeleton } from "@mui/material";
 
-type TextSkeletonProps = {
+type BlockSkeletonProps = {
   width?: number | string;
-  mb?: number
-  ml?: number
+  height?: number;
+  mb?: number;
+  animated?: boolean;
 };
 
-export default function TextSkeleton({ width, mb, ml }: TextSkeletonProps) {
+export default function BlockSkeleton({
+  width,
+  height,
+  animated,
+  mb,
+}: BlockSkeletonProps) {
   return (
     <Skeleton
       variant="rectangular"
       animation="wave"
-      height={15}
+      height={height}
       width={width}
       sx={{
-        animation: "wave 5s infinite ease-out",
+        animation: animated ? "wave 5s infinite ease-out" : "none",
         maxWidth: width,
         mb,
-        ml,
         borderRadius: 2,
 
         // keyframe
         "@keyframes wave": {
           "0%": {
-            width: 20,
+            width: 100,
           },
 
           "50%": {
@@ -39,8 +44,9 @@ export default function TextSkeleton({ width, mb, ml }: TextSkeletonProps) {
   );
 }
 
-TextSkeleton.defaultProps = {
+BlockSkeleton.defaultProps = {
   width: "100%",
+  height: 200,
+  animated: false,
   mb: 1,
-  ml: 0
 };
