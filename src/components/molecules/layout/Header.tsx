@@ -1,14 +1,26 @@
-import { Avatar, Box, SxProps, Theme } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Divider,
+  Menu,
+  MenuItem,
+  SxProps,
+  Theme,
+} from "@mui/material";
 import Text from "../../atoms/texts/Text";
 import Button from "../../atoms/buttons/Button";
 import { Colors, primaryRGBA } from "../../../constants/colors";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useScroll from "../../../hooks/useScroll";
 import { useMemo } from "react";
 import GetAppIcon from "@mui/icons-material/GetApp";
-import { useSignal } from "@dilane3/gx";
-import { AuthState } from "../../../gx/signals/auth/types";
+import { useActions, useSignal } from "@dilane3/gx";
+import { AuthActions, AuthState } from "../../../gx/signals/auth/types";
 import { capitalize, truncate } from "../../../utils/string";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import LogoutIcon from "@mui/icons-material/Logout";
+import * as React from "react";
+import { authProvider } from "../../../api/auth";
 
 type HeaderProps = {
   transparent: boolean;
@@ -19,11 +31,19 @@ export default function Header({
   transparent,
   type,
 }: HeaderProps): React.ReactNode {
+  const navigate = useNavigate();
+
   const scrollableContainer = document.querySelector("body");
   const scrollDistance = useScroll(scrollableContainer);
 
+  // Local state
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
   // Global state
   const { user } = useSignal<AuthState>("auth");
+
+  const { logout } = useActions<AuthActions>("auth");
 
   const { transparentDegree } = useMemo(() => {
     const max = window.innerHeight - 80;
@@ -34,6 +54,26 @@ export default function Header({
 
     return { isScrolled, transparentDegree: scrollDegree };
   }, [scrollDistance]);
+
+  // Handlers
+
+  const handleOpenDropdown = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = async () => {
+    await authProvider.logout();
+
+    logout();
+
+    handleClose();
+
+    navigate("/auth");
+  };
 
   return (
     <Box
@@ -102,14 +142,50 @@ export default function Header({
             </Button>
 
             <Avatar
-              sx={{ bgcolor: user.color }}
+              sx={{ bgcolor: user.color, cursor: "pointer" }}
               alt={user.username}
               src={user.avatar}
+              onClick={handleOpenDropdown}
             />
             <Text
               text={capitalize(truncate(user.email, 7))}
               style={styles.senderName}
             />
+
+            <Menu
+              id="demo-positioned-menu"
+              aria-labelledby="demo-positioned-button"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              sx={{
+                "& .MuiMenu-paper": {
+                  boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.3)",
+                  mt: 1.5,
+                },
+              }}
+            >
+              <MenuItem onClick={handleClose} sx={{ width: 150 }}>
+                <PersonOutlineOutlinedIcon
+                  sx={styles.menuItemIcon}
+                  color="action"
+                />
+                <Text style={styles.menuItemText} text="Profile"></Text>
+              </MenuItem>
+              <Divider />
+              <MenuItem onClick={handleLogout}>
+                <LogoutIcon sx={styles.menuItemIcon} color="action" />
+                <Text style={styles.menuItemText} text="Logout"></Text>
+              </MenuItem>
+            </Menu>
           </Box>
         )
       )}
@@ -153,7 +229,9 @@ const styles: Record<string, SxProps<Theme>> = {
     alignItems: "center",
 
     [theme.breakpoints.down("sm")]: {
-      display: "none",
+      "& > a:not(:has(button))": {
+        display: "none",
+      },
     },
   }),
 
@@ -186,5 +264,15 @@ const styles: Record<string, SxProps<Theme>> = {
     fontFamily: "Lato Bold",
     paddingLeft: "10px",
     fontSize: 16,
+  },
+
+  menuItemIcon: {
+    fontSize: "1.5rem",
+    mr: 2,
+  },
+
+  menuItemText: {
+    fontSize: "1rem",
+    fontFamily: "Lato Regular",
   },
 };

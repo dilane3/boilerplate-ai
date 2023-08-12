@@ -13,7 +13,7 @@ export default function Paper({ loading, text }: PaperProps) {
       {loading ? (
         <PaperSkeleton />
       ) : (
-        <Box contentEditable={true} sx={styles.paper}>
+        <Box contentEditable={true} sx={styles.paper} id="letter">
           <div dangerouslySetInnerHTML={{ __html: text }} />
         </Box>
       )}
@@ -28,12 +28,13 @@ Paper.defaultProps = {
 const styles: Record<string, SxProps<Theme>> = {
   container: (theme) => ({
     width: "calc(100% - 300px)",
-    minWidth: "400px",
-    minHeight: "2700px",
+    minWidth: "350px",
+    minHeight: "700px",
     padding: "100px",
     backgroundColor: Colors.background,
     boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
     mx: "auto",
+    // overflowY: "auto",
 
     [theme.breakpoints.down("md")]: {
       width: "calc(100% - 200px)",
@@ -48,7 +49,7 @@ const styles: Record<string, SxProps<Theme>> = {
 
   paper: {
     width: "100%",
-    minHeight: "100%",
+    minHeight: "500px",
     height: "auto",
     outline: "none !important",
     fontFamily: "Lato Regular",

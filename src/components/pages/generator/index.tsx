@@ -8,42 +8,76 @@ import Paper from "../../molecules/pages/Paper";
 import Configurator from "../../molecules/pages/Configurator";
 import Icon from "../../atoms/icons/Icon";
 import DehazeIcon from "@mui/icons-material/Dehaze";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { generateLetter } from "../../../api/ai";
 import { formatLetter } from "../../../utils/string";
+import useConvertToPng from "../../../hooks/useConvertToPng";
+import { useParams } from "react-router-dom";
+import { useActions, useOperations, useSignal } from "@dilane3/gx";
+import { WritingActions, WritingOperations, WritingState } from "../../../gx/signals/writings/types";
+import Writing from "../../../entities/writing/Writing";
 
 export default function GeneratorPage(): React.ReactNode {
+  const { id: writingId } = useParams();
+
   const [showConfig, setShowConfig] = useState(false);
-  const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Global state
+  const { writings } = useSignal<WritingState>("writings");
+  const { getWritingById } = useOperations<WritingOperations>("writings");
+  const { updateWriting } = useActions<WritingActions>("writings");
+
+  // Memoized data
+  const writing = useMemo(() => {
+    if (!writingId) return null;
+
+    return getWritingById(+writingId);
+  }, [writingId, JSON.stringify(writings)]);
+
+  // Custom hooks
+  const image = useConvertToPng(writing);
+
+  useEffect(() => {
+    if (image) {
+      localStorage.setItem("image", image);
+    }
+  }, [image]);
 
   // Some handlers
 
   const handleGenerateLetter = async () => {
+    if (!writing) return;
+
     setLoading(true);
 
-    const { success, data, error } = await generateLetter(
-      "Generate a letter for me to my mother who live in Cameroon. My name is Dilane"
-    );
+    const config = writing.prepareConfiguration();
+    const { success, data, error } = await generateLetter(config);
 
     setLoading(false);
 
     if (success && data) {
-      console.log(data);
-
       if (data.message && data.message.content) {
-        setText(data.message.content);
+        const updatedWriting = new Writing(writing.toJSON());
+
+        updatedWriting.content = data.message.content;
+
+        console.log({ content: data.message.content, config })
+
+        updateWriting(updatedWriting);
       }
     } else {
       console.log(error);
     }
   };
 
+  if (!writing) return null
+
   return (
     <DashboardLayout>
       <Box sx={styles.container}>
         <Box sx={styles.board}>
-          <Paper loading={loading} text={formatLetter(text)} />
+          <Paper loading={loading} text={formatLetter(writing.content)} />
 
           <Box sx={styles.floatingBtn}>
             <Button
@@ -83,10 +117,9 @@ const styles: Record<string, SxProps<Theme>> = {
   board: (theme) => ({
     position: "relative",
     display: "flex",
-    width: "calc(100% - 200px)",
-    height: "calc(100vh - 140px)",
+    width: "calc(100% - 300px)",
+    minHeight: "calc(100vh - 140px)",
     backgroundColor: Colors.grayLight,
-    overflowY: "auto",
     py: 5,
     transition: "all 0.3s ease-in-out",
 
@@ -96,6 +129,10 @@ const styles: Record<string, SxProps<Theme>> = {
   }),
 
   config: (theme) => ({
+    position: "fixed",
+    top: 60,
+    right: 0,
+    bottom: 0,
     display: "flex",
     transition: "all 0.3s ease-in-out",
 
@@ -137,8 +174,8 @@ const styles: Record<string, SxProps<Theme>> = {
 
   floatingIconMenu: (theme) => ({
     position: "fixed",
-    top: 80,
-    right: 50,
+    top: 70,
+    right: 10,
     p: 0.4,
     transition: "all 0.3s ease-in-out",
     borderRadius: "50%",
@@ -149,7 +186,7 @@ const styles: Record<string, SxProps<Theme>> = {
     justifyContent: "center",
 
     "&.show": {
-      transform: "translateX(-240px)",
+      transform: "translateX(-250px)",
     },
 
     [theme.breakpoints.down("md")]: {

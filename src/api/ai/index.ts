@@ -16,7 +16,9 @@ const openai = new OpenAIApi(configuration);
  * @param prompt string
  * @returns
  */
-export const generateLetter = async (prompt: string) => {
+export const generateLetter = async (
+  configuration: { role: "user"; content: string }[]
+) => {
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: [
@@ -24,10 +26,7 @@ export const generateLetter = async (prompt: string) => {
         role: "system",
         content: "you are an expert in writing letters",
       },
-      {
-        role: "user",
-        content: prompt,
-      },
+      ...configuration,
     ],
     temperature: 1,
     max_tokens: 1000,
@@ -114,5 +113,5 @@ export const regenerateSentence = async (prompt: string, history: any) => {
   return {
     success: false,
     error: "Something went wrong",
-  }
+  };
 };

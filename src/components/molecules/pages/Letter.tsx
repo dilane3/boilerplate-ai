@@ -5,17 +5,22 @@ import { SxProps, Theme, Box, CardActionArea } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AlarmIcon from "@mui/icons-material/Alarm";
 import Text from "../../atoms/texts/Text";
-
-import letter from "../../../assets/images/lettre.png";
 import Icon from "../../atoms/icons/Icon";
 import { useNavigate } from "react-router-dom";
+import Writing from "../../../entities/writing/Writing";
+import { capitalize } from "../../../utils/string";
+import { formatDate } from "../../../utils/date";
 
-export default function LetterCard() {
+type LetterCardProps = {
+  letter: Writing;
+};
+
+export default function LetterCard({ letter }: LetterCardProps) {
   const navigate = useNavigate();
 
   return (
     <Card sx={styles.container}>
-      <CardActionArea onClick={() => navigate("/dashboard/writings/2")}>
+      <CardActionArea onClick={() => navigate(`/dashboard/writings/${letter.id}`)}>
         <Icon
           style={{
             fontSize: "24px",
@@ -27,12 +32,18 @@ export default function LetterCard() {
         >
           <MoreVertIcon />
         </Icon>
-        <CardMedia component="img" height="300" image={letter} alt="letter" />
+        <CardMedia
+          component="img"
+          height="300"
+          image={letter.image || ""}
+          alt="letter"
+          sx={styles.image}
+        />
         <CardContent>
-          <Text text="Lettre de motivation" style={styles.title} />
+          <Text text={capitalize(letter.description)} style={styles.title} />
           <Box sx={styles.since}>
             <AlarmIcon sx={{ fontSize: "24px" }} />
-            <Text text="2 hours ago" style={styles.periode} />
+            <Text text={formatDate(letter.createdAt)} style={styles.periode} />
           </Box>
         </CardContent>
       </CardActionArea>
@@ -80,4 +91,11 @@ const styles: Record<string, SxProps<Theme>> = {
 
     [theme.breakpoints.down("sm")]: {},
   }),
+
+  image: {
+    width: "calc(100% - 40px)",
+    objectFit: "cover",
+    objectPosition: "top",
+    p: 2,
+  },
 };
