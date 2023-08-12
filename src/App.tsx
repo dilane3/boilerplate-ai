@@ -3,6 +3,7 @@ import store from "./gx/store/index";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import router from "./routes";
 import LoadLayout from "./components/layouts/LoadLayout";
+import ModalProvider from "./components/molecules/modals/ModalProvider";
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
             <Route path="*" element={<h1>404</h1>} />
           </Routes>
         </Router>
+
+        <ModalProvider />
       </LoadLayout>
     </GXProvider>
   );
