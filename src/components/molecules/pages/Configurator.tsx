@@ -1,4 +1,4 @@
-import { Box, SxProps, Theme } from "@mui/material";
+import { Box, Divider, SxProps, Theme } from "@mui/material";
 import Text from "../../atoms/texts/Text";
 import Input from "../../atoms/inputs/Input";
 import { Colors } from "../../../constants/colors";
@@ -64,6 +64,9 @@ export default function Configurator() {
 
   return (
     <Box sx={styles.config}>
+      <Text text="Configuration Panel" style={styles.configName} />
+      <Divider />
+
       <Box sx={styles.configItem}>
         <Text text="Sender's Information" style={styles.configTitle} />
 
@@ -106,7 +109,7 @@ export default function Configurator() {
           onChange={(e) => handleChanges(e, "object")}
         />
         <Input
-          label="Main idea"
+          label="Content"
           value={writing.config.letter.content}
           onChange={(e) => handleChanges(e, "mainIdea")}
         />
@@ -153,5 +156,13 @@ const styles: Record<string, SxProps<Theme>> = {
     fontFamily: "Lexend Bold",
     fontSize: 16,
     mb: 2,
+    color: Colors.black,
   },
+
+  configName: {
+    fontFamily: "Lexend Bold",
+    fontSize: 20,
+    my: 2,
+    color: Colors.primary,
+  }
 };

@@ -4,13 +4,19 @@ import Button from "../../atoms/buttons/Button";
 import EditIcon from "@mui/icons-material/Edit";
 import LetterCard from "../../molecules/pages/Letter";
 import DashboardLayout from "../../layouts/DashboardLayout";
-import { useSignal } from "@dilane3/gx";
+import { useActions, useSignal } from "@dilane3/gx";
 import { WritingState } from "../../../gx/signals/writings/types";
-
+import { ModalActions, ModalType } from "../../../gx/signals/modal/types";
 
 export default function DashbordPage(): React.ReactNode {
   // Global state
   const { writings } = useSignal<WritingState>("writings");
+
+  const { open } = useActions<ModalActions>("modal");
+
+  const handleOpen = () => {
+    open(ModalType.WRITING_CREATE);
+  };
 
   return (
     <DashboardLayout>
@@ -20,18 +26,17 @@ export default function DashbordPage(): React.ReactNode {
         <Divider />
 
         <Box sx={styles.writingsContainer}>
-          {
-            writings.map((writing) => (
-              <LetterCard
-                key={writing.id}
-                letter={writing}
-              />
-            ))
-          }
+          {writings.map((writing) => (
+            <LetterCard key={writing.id} letter={writing} />
+          ))}
         </Box>
 
         <Box sx={styles.floatingBtn}>
-          <Button style={{ height: 50, px: 3 }} disabledShadow={false}>
+          <Button
+            style={{ height: 50, px: 3 }}
+            disabledShadow={false}
+            onClick={handleOpen}
+          >
             <EditIcon sx={{ mr: 1 }} />
             <Text text="New Writing" style={{ fontFamily: "Lexend Regular" }} />
           </Button>
@@ -82,7 +87,7 @@ const styles: Record<string, SxProps<Theme>> = {
     mb: 14,
 
     [theme.breakpoints.down("md")]: {
-      justifyContent:"flex-start",
+      justifyContent: "flex-start",
       alignItems: "center",
       flexDirection: "column",
     },
@@ -92,6 +97,6 @@ const styles: Record<string, SxProps<Theme>> = {
     position: "fixed",
     bottom: 50,
     right: 50,
-    p: 1
+    p: 1,
   },
 };
