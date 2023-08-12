@@ -1,6 +1,6 @@
 export enum WritingType {
   LETTER = "LETTER",
-} 
+}
 
 type WritingData = {
   id: number;
@@ -13,7 +13,7 @@ type WritingData = {
   history?: any;
   config?: any;
   image?: string;
-}
+};
 
 export default class Writing {
   private _id: number;
@@ -58,7 +58,7 @@ export default class Writing {
 
           other: {
             value: "",
-          }
+          },
         };
       }
     } else {
@@ -143,5 +143,78 @@ export default class Writing {
       config: this._config,
       image: this._image,
     };
+  }
+
+  public prepareConfiguration(): { role: "user"; content: string }[] {
+    const configuration: { role: "user"; content: string }[] = [];
+
+    if (this._type === WritingType.LETTER) {
+      if (this._config.sender.name) {
+        configuration.push({
+          role: "user",
+          content: `Sender name: ${this._config.sender.name}`,
+        });
+      }
+
+      if (this._config.sender.address) {
+        configuration.push({
+          role: "user",
+          content: `Sender address: ${this._config.sender.address}`,
+        });
+      }
+
+      if (this._config.receiver.name) {
+        configuration.push({
+          role: "user",
+          content: `Receiver name: ${this._config.receiver.name}`,
+        });
+      }
+
+      if (this._config.receiver.address) {
+        configuration.push({
+          role: "user",
+          content: `Receiver address: ${this._config.receiver.address}`,
+        });
+      }
+
+      if (this._config.letter.object) {
+        configuration.push({
+          role: "user",
+          content: `Add an object section to the letter, juste below the address of the receiver.`,
+        });
+        configuration.push({
+          role: "user",
+          content: `Letter object: ${this._config.letter.object}`,
+        });
+      }
+
+      if (this._config.letter.content) {
+        configuration.push({
+          role: "user",
+          content: `The letter will talk about: ${this._config.letter.content}`,
+        });
+      }
+
+      if (this._config.other.value) {
+        configuration.push({
+          role: "user",
+          content: `Other information or exigence: ${this._config.other.value}`,
+        });
+      }
+
+      if (configuration.length > 0) {
+        configuration.unshift({
+          role: "user",
+          content: `This is the letter configuration. please consider the following information:`,
+        });
+      } else {
+        configuration.push({
+          role: "user",
+          content: `Please provide a template of letter about anything you want to write.`,
+        });
+      }
+    }
+
+    return configuration;
   }
 }

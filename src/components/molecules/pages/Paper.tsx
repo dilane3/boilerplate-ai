@@ -29,12 +29,12 @@ const styles: Record<string, SxProps<Theme>> = {
   container: (theme) => ({
     width: "calc(100% - 300px)",
     minWidth: "350px",
-    height: "700px",
+    minHeight: "700px",
     padding: "100px",
     backgroundColor: Colors.background,
     boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
     mx: "auto",
-    overflowY: "auto",
+    // overflowY: "auto",
 
     [theme.breakpoints.down("md")]: {
       width: "calc(100% - 200px)",

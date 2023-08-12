@@ -1,12 +1,13 @@
 import { toPng } from "html-to-image";
 import { useEffect, useState } from "react";
+import Writing from "../entities/writing/Writing";
 
-export default function useConvertToPng(letter: string) {
+export default function useConvertToPng(writing: Writing | null) {
   const [image, setImage] = useState<string | null>(null);
 
   useEffect(() => {
     convertToPng();
-  }, [letter]);
+  }, [writing]);
 
   const convertToPng = () => {
     const node = document.getElementById("letter");

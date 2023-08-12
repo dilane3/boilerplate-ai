@@ -13,29 +13,30 @@ import { generateLetter } from "../../../api/ai";
 import { formatLetter } from "../../../utils/string";
 import useConvertToPng from "../../../hooks/useConvertToPng";
 import { useParams } from "react-router-dom";
-import { useOperations } from "@dilane3/gx";
-import { WritingOperations } from "../../../gx/signals/writings/types";
+import { useActions, useOperations, useSignal } from "@dilane3/gx";
+import { WritingActions, WritingOperations, WritingState } from "../../../gx/signals/writings/types";
+import Writing from "../../../entities/writing/Writing";
 
 export default function GeneratorPage(): React.ReactNode {
   const { id: writingId } = useParams();
 
   const [showConfig, setShowConfig] = useState(false);
-  const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
 
   // Global state
+  const { writings } = useSignal<WritingState>("writings");
   const { getWritingById } = useOperations<WritingOperations>("writings");
-
-
-  // Custom hooks
-  const image = useConvertToPng(text);
+  const { updateWriting } = useActions<WritingActions>("writings");
 
   // Memoized data
   const writing = useMemo(() => {
     if (!writingId) return null;
 
     return getWritingById(+writingId);
-  }, [writingId]);
+  }, [writingId, JSON.stringify(writings)]);
+
+  // Custom hooks
+  const image = useConvertToPng(writing);
 
   useEffect(() => {
     if (image) {
@@ -46,17 +47,24 @@ export default function GeneratorPage(): React.ReactNode {
   // Some handlers
 
   const handleGenerateLetter = async () => {
+    if (!writing) return;
+
     setLoading(true);
 
-    const { success, data, error } = await generateLetter(
-      "Generate a letter for me to my mother who live in Cameroon. My name is Dilane"
-    );
+    const config = writing.prepareConfiguration();
+    const { success, data, error } = await generateLetter(config);
 
     setLoading(false);
 
     if (success && data) {
       if (data.message && data.message.content) {
-        setText(data.message.content);
+        const updatedWriting = new Writing(writing.toJSON());
+
+        updatedWriting.content = data.message.content;
+
+        console.log({ content: data.message.content, config })
+
+        updateWriting(updatedWriting);
       }
     } else {
       console.log(error);
@@ -109,10 +117,9 @@ const styles: Record<string, SxProps<Theme>> = {
   board: (theme) => ({
     position: "relative",
     display: "flex",
-    width: "100%",
-    height: "calc(100vh - 140px)",
+    width: "calc(100% - 300px)",
+    minHeight: "calc(100vh - 140px)",
     backgroundColor: Colors.grayLight,
-    overflowY: "auto",
     py: 5,
     transition: "all 0.3s ease-in-out",
 
@@ -122,6 +129,10 @@ const styles: Record<string, SxProps<Theme>> = {
   }),
 
   config: (theme) => ({
+    position: "fixed",
+    top: 60,
+    right: 0,
+    bottom: 0,
     display: "flex",
     transition: "all 0.3s ease-in-out",
 

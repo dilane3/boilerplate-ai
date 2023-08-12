@@ -3,8 +3,8 @@ import Text from "../../atoms/texts/Text";
 import Input from "../../atoms/inputs/Input";
 import { Colors } from "../../../constants/colors";
 import { useParams } from "react-router-dom";
-import { useActions, useOperations } from "@dilane3/gx";
-import { WritingActions, WritingOperations } from "../../../gx/signals/writings/types";
+import { useActions, useOperations, useSignal } from "@dilane3/gx";
+import { WritingActions, WritingOperations, WritingState } from "../../../gx/signals/writings/types";
 import { useMemo } from "react";
 import Writing from "../../../entities/writing/Writing";
 
@@ -12,6 +12,7 @@ export default function Configurator() {
   const { id: writingId } = useParams();
 
   // Global state
+  const { writings } = useSignal<WritingState>("writings");
   const { getWritingById } = useOperations<WritingOperations>("writings");
   const { updateWriting } = useActions<WritingActions>("writings");
 
@@ -20,7 +21,7 @@ export default function Configurator() {
     if (!writingId) return null;
 
     return getWritingById(+writingId);
-  }, [writingId]);
+  }, [writingId, JSON.stringify(writings)]);
 
   // Handlers
   const handleChanges = (
@@ -55,11 +56,14 @@ export default function Configurator() {
         config.other.value = value;
         break;
     }
+    console.log({writing1: writing});
 
     // Update writing
     const updatedWriting = new Writing(writing.toJSON());
 
     updatedWriting.config = config;
+
+    console.log({writing});
 
     updateWriting(updatedWriting);
   };
