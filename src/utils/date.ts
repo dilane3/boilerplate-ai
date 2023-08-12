@@ -8,7 +8,6 @@ export const formatDate = (date: Date) => {
   const now = Math.floor(Date.now() / 1000);
   let diff = now - time;
 
-  let seconds = 0;
   let minutes = 0;
   let hours = 0;
 
@@ -21,8 +20,6 @@ export const formatDate = (date: Date) => {
       diff -= 60;
     }
   }
-
-  seconds = diff;
 
   if (hours < 1 && minutes < 1) {
     return `Just now`;

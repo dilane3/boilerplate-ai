@@ -5,13 +5,8 @@ import { SxProps, Theme, Box, CardActionArea } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AlarmIcon from "@mui/icons-material/Alarm";
 import Text from "../../atoms/texts/Text";
-
-import letter from "../../../assets/images/lettre.png";
 import Icon from "../../atoms/icons/Icon";
 import { useNavigate } from "react-router-dom";
-import { toPng } from "html-to-image";
-import { useEffect } from "react";
-import * as React from "react";
 import Writing from "../../../entities/writing/Writing";
 import { capitalize } from "../../../utils/string";
 import { formatDate } from "../../../utils/date";
