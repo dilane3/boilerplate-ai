@@ -10,13 +10,14 @@ import { useNavigate } from "react-router-dom";
 import Writing from "../../../entities/writing/Writing";
 import { capitalize } from "../../../utils/string";
 import { formatDate } from "../../../utils/date";
-import bg from "../../../assets/images/bg-white.png";
+import bg from "../../../assets/images/logo.png";
 import { Colors } from "../../../constants/colors";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import * as React from "react";
 import { writingProvider } from "../../../api/writings";
 import { WritingActions } from "../../../gx/signals/writings/types";
 import { useActions } from "@dilane3/gx";
+import { toast } from "react-toastify";
 
 type LetterCardProps = {
   letter: Writing;
@@ -43,12 +44,18 @@ export default function LetterCard({ letter }: LetterCardProps) {
   };
 
   const handleDelete = async () => {
+    handleClose();
+
+    toast.info("Deletion of writing in progress...");
+
     const { success } = await writingProvider.delete({ id: letter.id });
 
     if (success) {
       deleteWriting(letter.id);
 
-      handleClose();
+      toast.success("Writing deleted successfully");
+    } else {
+      toast.error("An error occured, please try again later");
     }
   };
 
@@ -74,10 +81,11 @@ export default function LetterCard({ letter }: LetterCardProps) {
           image={letter.image || bg}
           alt="letter"
           sx={{
-            width: letter.image ? "calc(100% - 40px)" : "100%",
+            width: letter.image ? "calc(100% - 30px)" : "100%",
             objectFit: "cover",
-            objectPosition: "top",
-            p: letter.image ? 2 : 0,
+            objectPosition: letter.image ? "top" : "center",
+            px: letter.image ? 2 : 0,
+            border: "1px solid #F5F5F5",
           }}
           onClick={() => navigate(`/dashboard/writings/${letter.id}`)}
         />
@@ -131,6 +139,7 @@ const styles: Record<string, SxProps<Theme>> = {
     maxWidth: 500,
     width: "360px",
     marginTop: "20px",
+    // backgroundColor: "#f5f5f5",
 
     [theme.breakpoints.down("sm")]: {
       width: "100%",

@@ -7,6 +7,7 @@ import DashboardLayout from "../../layouts/DashboardLayout";
 import { useActions, useSignal } from "@dilane3/gx";
 import { WritingState } from "../../../gx/signals/writings/types";
 import { ModalActions, ModalType } from "../../../gx/signals/modal/types";
+import { Colors } from "../../../constants/colors";
 
 export default function DashbordPage(): React.ReactNode {
   // Global state
@@ -52,6 +53,7 @@ const styles: Record<string, SxProps<Theme>> = {
     flexDirection: "column",
     width: "calc(100% - 200px)",
     padding: "0px 100px",
+    // backgroundColor: "#f5f5f5",
 
     [theme.breakpoints.down("md")]: {
       padding: "0px 50px",

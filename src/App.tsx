@@ -4,6 +4,8 @@ import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import router from "./routes";
 import LoadLayout from "./components/layouts/LoadLayout";
 import ModalProvider from "./components/molecules/modals/ModalProvider";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -20,6 +22,14 @@ function App() {
         </Router>
 
         <ModalProvider />
+        <ToastContainer 
+          position="bottom-right"
+          // autoClose={5000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick={true}
+          pauseOnFocusLoss={true}
+        />
       </LoadLayout>
     </GXProvider>
   );

@@ -1,19 +1,11 @@
 import { createSignal } from "@dilane3/gx";
 import { WritingState } from "./types";
-import Writing, { WritingType } from "../../../entities/writing/Writing";
-
-const letter = new Writing({
-  id: 1,
-  type: WritingType.LETTER,
-  description: "Motivation letter",
-  createdAt: new Date(Date.now()),
-  ownerId: "1",
-});
+import Writing from "../../../entities/writing/Writing";
 
 const writingSignal = createSignal<WritingState>({
   name: "writings",
   state: {
-    writings: [letter],
+    writings: [],
     loading: true,
   },
   actions: {

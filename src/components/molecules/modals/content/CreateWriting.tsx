@@ -5,9 +5,12 @@ import Button from "../../../atoms/buttons/Button";
 import { Colors } from "../../../../constants/colors";
 import { useState } from "react";
 import Writing, { WritingType } from "../../../../entities/writing/Writing";
-import { useSignal } from "@dilane3/gx";
+import { useActions, useSignal } from "@dilane3/gx";
 import { AuthState } from "../../../../gx/signals/auth/types";
 import { writingProvider } from "../../../../api/writings";
+import { WritingActions } from "../../../../gx/signals/writings/types";
+import { toast } from "react-toastify";
+import { ModalActions } from "../../../../gx/signals/modal/types";
 
 export default function CreateWriting() {
   const [description, setDescription] = useState("");
@@ -16,6 +19,9 @@ export default function CreateWriting() {
   // Global state
   const { user } = useSignal<AuthState>("auth");
 
+  const { addWriting } = useActions<WritingActions>("writings");
+  const { close: closeModal } = useActions<ModalActions>("modal");
+
   // Handlers
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDescription(e.target.value);
@@ -23,6 +29,8 @@ export default function CreateWriting() {
 
   const handleSubmit = async () => {
     if (!description || !user) return;
+
+    toast.info("Creation of writing in progress...");
 
     const payload = {
       description,
@@ -33,21 +41,28 @@ export default function CreateWriting() {
 
     setLoading(true);
 
-    const { success, data, error } = await writingProvider.create(payload);
+    const { success, data } = await writingProvider.create(payload);
 
     setLoading(false);
 
-    console.log({ data, error });
-
     if (success && data) {
-      // const writingData = {
-      //   ...data,
-      //   ownerId: user.uid,
-      //   createdAt: new Date(data.created_at),
+      const writingData = {
+        ...data,
+        ownerId: user.uid,
+        createdAt: new Date(data.created_at),
+      }
 
-      // }
+      const newWriting = new Writing(writingData);
+
+      addWriting(newWriting);
 
       setDescription("");
+
+      toast.success("Writing created successfully");
+
+      closeModal();
+    } else {
+      toast.error("An error occured, please try again later");
     }
   };
 
