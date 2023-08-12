@@ -198,6 +198,11 @@ export default class Writing {
       if (this._config.other.value) {
         configuration.push({
           role: "user",
+          content: `The following information is extremely important, please take it in account.`,
+        });
+
+        configuration.push({
+          role: "user",
           content: `Other information or exigence: ${this._config.other.value}`,
         });
       }

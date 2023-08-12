@@ -6,7 +6,6 @@ import { useParams } from "react-router-dom";
 import { useActions, useOperations, useSignal } from "@dilane3/gx";
 import { WritingActions, WritingOperations, WritingState } from "../../../gx/signals/writings/types";
 import { useMemo } from "react";
-import Writing from "../../../entities/writing/Writing";
 
 export default function Configurator() {
   const { id: writingId } = useParams();
@@ -14,7 +13,7 @@ export default function Configurator() {
   // Global state
   const { writings } = useSignal<WritingState>("writings");
   const { getWritingById } = useOperations<WritingOperations>("writings");
-  const { updateWriting } = useActions<WritingActions>("writings");
+  const { updateConfig } = useActions<WritingActions>("writings");
 
   // Memoized data
   const writing = useMemo(() => {
@@ -56,16 +55,9 @@ export default function Configurator() {
         config.other.value = value;
         break;
     }
-    console.log({writing1: writing});
 
     // Update writing
-    const updatedWriting = new Writing(writing.toJSON());
-
-    updatedWriting.config = config;
-
-    console.log({writing});
-
-    updateWriting(updatedWriting);
+    updateConfig({ writingId: writing.id, config });
   };
 
   if (!writing) return null;

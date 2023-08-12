@@ -26,7 +26,7 @@ export default function GeneratorPage(): React.ReactNode {
   // Global state
   const { writings } = useSignal<WritingState>("writings");
   const { getWritingById } = useOperations<WritingOperations>("writings");
-  const { updateWriting } = useActions<WritingActions>("writings");
+  const { updateWriting, updateImage } = useActions<WritingActions>("writings");
 
   // Memoized data
   const writing = useMemo(() => {
@@ -39,8 +39,8 @@ export default function GeneratorPage(): React.ReactNode {
   const image = useConvertToPng(writing);
 
   useEffect(() => {
-    if (image) {
-      localStorage.setItem("image", image);
+    if (image && writing) {
+      updateImage({ writingId: writing.id, image });
     }
   }, [image]);
 

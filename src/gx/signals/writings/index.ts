@@ -40,6 +40,26 @@ const writingSignal = createSignal<WritingState>({
       return state;
     },
 
+    updateConfig: (state, payload: { writingId: number, config: any }) => {
+      const writing = state.writings.find((w) => w.id === payload.writingId);
+
+      if (writing) {
+        writing.config = payload.config;
+      }
+
+      return state;
+    },
+
+    updateImage: (state, payload: { writingId: number, image: string }) => {
+      const writing = state.writings.find((w) => w.id === payload.writingId);
+
+      if (writing) {
+        writing.image = payload.image;
+      }
+
+      return state;
+    },
+
     deleteWriting: (state, id: number) => {
       const index = state.writings.findIndex((w) => w.id === id);
 

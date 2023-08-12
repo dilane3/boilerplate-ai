@@ -10,6 +10,8 @@ export type WritingActions = {
   addWriting: (writing: Writing) => void;
   updateWriting: (writing: Writing) => void;
   deleteWriting: (id: number) => void;
+  updateConfig: (payload: { writingId: number; config: any }) => void;
+  updateImage: (payload: { writingId: number; image: string }) => void;
 };
 
 export type WritingOperations = {
