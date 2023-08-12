@@ -4,9 +4,14 @@ import Button from "../../atoms/buttons/Button";
 import EditIcon from "@mui/icons-material/Edit";
 import LetterCard from "../../molecules/pages/Letter";
 import DashboardLayout from "../../layouts/DashboardLayout";
+import { useSignal } from "@dilane3/gx";
+import { WritingState } from "../../../gx/signals/writings/types";
 
 
 export default function DashbordPage(): React.ReactNode {
+  // Global state
+  const { writings } = useSignal<WritingState>("writings");
+
   return (
     <DashboardLayout>
       <Box component="section" sx={styles.container}>
@@ -15,9 +20,14 @@ export default function DashbordPage(): React.ReactNode {
         <Divider />
 
         <Box sx={styles.writingsContainer}>
-          <LetterCard/>
-          <LetterCard/>
-          <LetterCard/>
+          {
+            writings.map((writing) => (
+              <LetterCard
+                key={writing.id}
+                letter={writing}
+              />
+            ))
+          }
         </Box>
 
         <Box sx={styles.floatingBtn}>

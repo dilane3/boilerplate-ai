@@ -12,13 +12,20 @@ import { useNavigate } from "react-router-dom";
 import { toPng } from "html-to-image";
 import { useEffect } from "react";
 import * as React from "react";
+import Writing from "../../../entities/writing/Writing";
+import { capitalize } from "../../../utils/string";
+import { formatDate } from "../../../utils/date";
 
-export default function LetterCard() {
+type LetterCardProps = {
+  letter: Writing;
+};
+
+export default function LetterCard({ letter }: LetterCardProps) {
   const navigate = useNavigate();
 
   return (
     <Card sx={styles.container}>
-      <CardActionArea onClick={() => navigate("/dashboard/writings/2")}>
+      <CardActionArea onClick={() => navigate(`/dashboard/writings/${letter.id}`)}>
         <Icon
           style={{
             fontSize: "24px",
@@ -33,15 +40,15 @@ export default function LetterCard() {
         <CardMedia
           component="img"
           height="300"
-          image={localStorage.getItem("image") || ""}
+          image={letter.image || ""}
           alt="letter"
           sx={styles.image}
         />
         <CardContent>
-          <Text text="Lettre de motivation" style={styles.title} />
+          <Text text={capitalize(letter.description)} style={styles.title} />
           <Box sx={styles.since}>
             <AlarmIcon sx={{ fontSize: "24px" }} />
-            <Text text="2 hours ago" style={styles.periode} />
+            <Text text={formatDate(letter.createdAt)} style={styles.periode} />
           </Box>
         </CardContent>
       </CardActionArea>
@@ -94,6 +101,6 @@ const styles: Record<string, SxProps<Theme>> = {
     width: "calc(100% - 40px)",
     objectFit: "cover",
     objectPosition: "top",
-    p: 2
-  }
+    p: 2,
+  },
 };

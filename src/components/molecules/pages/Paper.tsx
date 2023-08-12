@@ -28,7 +28,7 @@ Paper.defaultProps = {
 const styles: Record<string, SxProps<Theme>> = {
   container: (theme) => ({
     width: "calc(100% - 300px)",
-    minWidth: "400px",
+    minWidth: "350px",
     height: "700px",
     padding: "100px",
     backgroundColor: Colors.background,

@@ -8,17 +8,34 @@ import Paper from "../../molecules/pages/Paper";
 import Configurator from "../../molecules/pages/Configurator";
 import Icon from "../../atoms/icons/Icon";
 import DehazeIcon from "@mui/icons-material/Dehaze";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { generateLetter } from "../../../api/ai";
 import { formatLetter } from "../../../utils/string";
 import useConvertToPng from "../../../hooks/useConvertToPng";
+import { useParams } from "react-router-dom";
+import { useOperations } from "@dilane3/gx";
+import { WritingOperations } from "../../../gx/signals/writings/types";
 
 export default function GeneratorPage(): React.ReactNode {
+  const { id: writingId } = useParams();
+
   const [showConfig, setShowConfig] = useState(false);
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Global state
+  const { getWritingById } = useOperations<WritingOperations>("writings");
+
+
+  // Custom hooks
   const image = useConvertToPng(text);
+
+  // Memoized data
+  const writing = useMemo(() => {
+    if (!writingId) return null;
+
+    return getWritingById(+writingId);
+  }, [writingId]);
 
   useEffect(() => {
     if (image) {
@@ -38,8 +55,6 @@ export default function GeneratorPage(): React.ReactNode {
     setLoading(false);
 
     if (success && data) {
-      console.log(data);
-
       if (data.message && data.message.content) {
         setText(data.message.content);
       }
@@ -48,11 +63,13 @@ export default function GeneratorPage(): React.ReactNode {
     }
   };
 
+  if (!writing) return null
+
   return (
     <DashboardLayout>
       <Box sx={styles.container}>
         <Box sx={styles.board}>
-          <Paper loading={loading} text={formatLetter(text)} />
+          <Paper loading={loading} text={formatLetter(writing.content)} />
 
           <Box sx={styles.floatingBtn}>
             <Button
@@ -92,7 +109,7 @@ const styles: Record<string, SxProps<Theme>> = {
   board: (theme) => ({
     position: "relative",
     display: "flex",
-    width: "calc(100% - 200px)",
+    width: "100%",
     height: "calc(100vh - 140px)",
     backgroundColor: Colors.grayLight,
     overflowY: "auto",
@@ -146,8 +163,8 @@ const styles: Record<string, SxProps<Theme>> = {
 
   floatingIconMenu: (theme) => ({
     position: "fixed",
-    top: 80,
-    right: 50,
+    top: 70,
+    right: 10,
     p: 0.4,
     transition: "all 0.3s ease-in-out",
     borderRadius: "50%",
@@ -158,7 +175,7 @@ const styles: Record<string, SxProps<Theme>> = {
     justifyContent: "center",
 
     "&.show": {
-      transform: "translateX(-240px)",
+      transform: "translateX(-250px)",
     },
 
     [theme.breakpoints.down("md")]: {
