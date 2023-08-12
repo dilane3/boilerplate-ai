@@ -6,7 +6,7 @@ type WritingData = {
   id: number;
   type: WritingType;
   description: string;
-  createdAt: Date;
+  createdAt?: Date;
   ownerId: string;
   content?: string;
   deleted?: boolean;
@@ -31,7 +31,7 @@ export default class Writing {
     this._id = data.id;
     this._type = data.type;
     this._description = data.description;
-    this._createdAt = data.createdAt;
+    this._createdAt = data.createdAt || new Date(Date.now());
     this._ownerId = data.ownerId;
     this._content = data.content || "";
     this._deleted = data.deleted || false;
@@ -39,28 +39,7 @@ export default class Writing {
     this._image = data.image || "";
 
     if (!data.config) {
-      if (data.type === WritingType.LETTER) {
-        this._config = {
-          sender: {
-            name: "",
-            address: "",
-          },
-
-          receiver: {
-            name: "",
-            address: "",
-          },
-
-          letter: {
-            object: "",
-            content: "",
-          },
-
-          other: {
-            value: "",
-          },
-        };
-      }
+      this._config = Writing.getConfig(data.type);
     } else {
       this._config = data.config;
     }
@@ -152,14 +131,14 @@ export default class Writing {
       if (this._config.sender.name) {
         configuration.push({
           role: "user",
-          content: `Sender name: ${this._config.sender.name}`,
+          content: `My name is: ${this._config.sender.name}`,
         });
       }
 
       if (this._config.sender.address) {
         configuration.push({
           role: "user",
-          content: `Sender address: ${this._config.sender.address}`,
+          content: `My address is: ${this._config.sender.address}`,
         });
       }
 
@@ -221,5 +200,35 @@ export default class Writing {
     }
 
     return configuration;
+  }
+
+  // Static methods
+  public static getConfig(type: WritingType) {
+    let config;
+
+    if (type === WritingType.LETTER) {
+      config = {
+        sender: {
+          name: "",
+          address: "",
+        },
+
+        receiver: {
+          name: "",
+          address: "",
+        },
+
+        letter: {
+          object: "",
+          content: "",
+        },
+
+        other: {
+          value: "",
+        },
+      };
+    }
+
+    return config;
   }
 }
