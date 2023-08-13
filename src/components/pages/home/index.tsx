@@ -10,11 +10,14 @@ import Button from "../../atoms/buttons/Button";
 import Text from "../../atoms/texts/Text";
 import Tutorial from "../../molecules/pages/Tutorial";
 import { Link } from "react-router-dom";
+import BuyMeACoffee from "../../molecules/pages/BuyMeACoffee";
 
 export default function HomePage(): React.ReactNode {
   return (
     <BaseLayout>
       <Hero />
+
+      <BuyMeACoffee />
 
       <Box sx={styles.properties}>
         <Box sx={styles.propertyItem}>

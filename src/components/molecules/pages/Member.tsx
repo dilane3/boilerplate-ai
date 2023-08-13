@@ -6,11 +6,8 @@ import Text from "../../atoms/texts/Text";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkIcon from "@mui/icons-material/Link";
-
-import letter from "../../../assets/images/profil.jpg";
 import Icon from "../../atoms/icons/Icon";
 import Button from "../../atoms/buttons/Button";
-import { capitalize } from "../../../utils/string";
 import { Link } from "react-router-dom";
 
 type MemberProps = {

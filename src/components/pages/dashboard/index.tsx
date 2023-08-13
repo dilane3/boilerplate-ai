@@ -7,7 +7,6 @@ import DashboardLayout from "../../layouts/DashboardLayout";
 import { useActions, useSignal } from "@dilane3/gx";
 import { WritingState } from "../../../gx/signals/writings/types";
 import { ModalActions, ModalType } from "../../../gx/signals/modal/types";
-import { Colors } from "../../../constants/colors";
 import LetterSkeleton from "../../molecules/pages/LetterSkeletong";
 
 export default function DashbordPage(): React.ReactNode {

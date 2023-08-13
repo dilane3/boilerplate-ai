@@ -1,7 +1,7 @@
 import {
   Avatar,
   Box,
-  Divider,
+  // Divider,
   Menu,
   MenuItem,
   SxProps,
@@ -17,7 +17,7 @@ import GetAppIcon from "@mui/icons-material/GetApp";
 import { useActions, useOperations, useSignal } from "@dilane3/gx";
 import { AuthActions, AuthState } from "../../../gx/signals/auth/types";
 import { capitalize, truncate } from "../../../utils/string";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+// import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import * as React from "react";
 import { authProvider } from "../../../api/auth";
@@ -213,14 +213,14 @@ export default function Header({
                 },
               }}
             >
-              <MenuItem onClick={handleClose} sx={{ width: 150 }}>
+              {/* <MenuItem onClick={handleClose} sx={{ width: 150 }}>
                 <PersonOutlineOutlinedIcon
                   sx={styles.menuItemIcon}
                   color="action"
                 />
                 <Text style={styles.menuItemText} text="Profile"></Text>
               </MenuItem>
-              <Divider />
+              <Divider /> */}
               <MenuItem onClick={handleLogout}>
                 <LogoutIcon sx={styles.menuItemIcon} color="action" />
                 <Text style={styles.menuItemText} text="Logout"></Text>
