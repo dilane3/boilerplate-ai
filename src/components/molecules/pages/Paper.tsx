@@ -1,7 +1,7 @@
 import { Box, Menu, MenuItem, SxProps, Theme } from "@mui/material";
 import { Colors } from "../../../constants/colors";
 import PaperSkeleton from "./PaperSkeleton";
-import { reformatLetter } from "../../../utils/string";
+import { formatLetter, reformatLetter } from "../../../utils/string";
 import { useActions, useOperations, useSignal } from "@dilane3/gx";
 import {
   WritingActions,
@@ -26,14 +26,18 @@ type PaperProps = {
 export default function Paper({ loading: baseLoading, text }: PaperProps) {
   const { id: writingId } = useParams();
 
+  const contentEditableRef = React.useRef<HTMLDivElement>(null);
+
   // Local state
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [loading, setLoading] = React.useState(baseLoading);
+  const [update, setUpdate] = React.useState(false);
 
   // Global state
   const { writings } = useSignal<WritingState>("writings");
-  const { updateWriting } = useActions<WritingActions>("writings");
+  const { updateContent, updateWriting } =
+    useActions<WritingActions>("writings");
   const { getWritingById } = useOperations<WritingOperations>("writings");
 
   // Memoized data
@@ -43,7 +47,7 @@ export default function Paper({ loading: baseLoading, text }: PaperProps) {
     const writing = getWritingById(+writingId);
 
     return writing;
-  }, [writingId, JSON.stringify(writings)]);
+  }, [writingId, JSON.stringify(writings), text]);
 
   React.useEffect(() => {
     if (writing) {
@@ -51,18 +55,44 @@ export default function Paper({ loading: baseLoading, text }: PaperProps) {
     }
   }, [baseLoading]);
 
-  // Handlers
+  React.useEffect(() => {
+    console.log(contentEditableRef);
 
-  const handleUpdateLetter = (e: any) => {
+    if (!writing) return;
+    if (!contentEditableRef.current) return;
+
+    const letter = formatLetter(writing.content);
+
+    contentEditableRef.current.innerHTML = letter;
+  }, [writing]);
+
+  React.useEffect(() => {
     if (!writing) return;
 
-    const letter = reformatLetter(e.target.innerHTML);
+    const interval = setInterval(async () => {
+      if (update) {
+        handleUpdateLetter();
+      }
+    }, 5000);
 
-    const updatedWriting = new Writing(writing.toJSON());
+    return () => clearInterval(interval);
+  }, [update]);
 
-    updatedWriting.content = letter;
+  React.useEffect(() => {
+    if (!contentEditableRef.current) return;
 
-    updateWriting(updatedWriting);
+    if (loading) contentEditableRef.current.innerHTML = "";
+  }, [loading]);
+
+  // Handlers
+
+  const handleUpdateLetter = () => {
+    if (!writing) return;
+    if (!contentEditableRef.current) return;
+
+    const letter = reformatLetter(contentEditableRef.current.innerHTML);
+
+    updateContent({ writingId: writing.id, content: letter });
   };
 
   // Handlers
@@ -146,18 +176,22 @@ export default function Paper({ loading: baseLoading, text }: PaperProps) {
         </>
       )}
 
-      {loading ? (
-        <PaperSkeleton />
-      ) : (
-        <Box
-          contentEditable={true}
-          sx={styles.paper}
-          id="letter"
-          onInput={handleUpdateLetter}
-        >
-          <div dangerouslySetInnerHTML={{ __html: text }} />
+      {loading && (
+        <Box sx={styles.floatingPaperSkeleton}>
+          <PaperSkeleton />
         </Box>
       )}
+
+      <Box
+        ref={contentEditableRef}
+        contentEditable={true}
+        sx={styles.paper}
+        id="letter"
+        onInput={() => setUpdate(true)}
+      >
+        {/* <div dangerouslySetInnerHTML={{ __html: text }} /> */}
+        {/* {text} */}
+      </Box>
     </Box>
   );
 }
@@ -202,5 +236,15 @@ const styles: Record<string, SxProps<Theme>> = {
     position: "absolute",
     top: 20,
     right: 20,
+  },
+
+  floatingPaperSkeleton: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "calc(100% - 180px)",
+    height: "700px",
+    padding: 10,
+    backgroundColor: Colors.background,
   },
 };
