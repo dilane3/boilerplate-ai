@@ -1,11 +1,14 @@
-{
+import dilanekombou from '../../../assets/images/team/dilanekombou.jpeg';
+import omerfotso from '../../../assets/images/team/omerfotso.jpeg';
+
+const contacts = {
   "team": [
     {
       "id": 1,
       "name": "Dilane Kombou",
       "title": "Founder of Boilerplate",
       "country": "Cameroon",
-      "avatar": "/src/assets/images/team/dilanekombou.jpeg",
+      "avatar": dilanekombou,
       "links": {
         "github": "https://github.com/dilane3",
         "twitter": "https://twitter.com/DilaneKombou",
@@ -18,7 +21,7 @@
       "name": "Omer Fotso",
       "title": "Frontend Developer",
       "country": "Cameroon",
-      "avatar": "",
+      "avatar": omerfotso,
       "links": {
         "github": "https://github.com/omer-alt",
         "twitter": "https://twitter.com/BeStrong_Alt",
@@ -27,3 +30,5 @@
     }
   ]
 }
+
+export default contacts;

@@ -12,6 +12,7 @@ import Button from "../../atoms/buttons/Button";
 import Text from "../../atoms/texts/Text";
 import { Link } from "react-router-dom";
 import { authProvider } from "../../../api/auth";
+import { Helmet } from "react-helmet-async";
 
 export default function AuthPage(): React.ReactNode {
   // Handlers
@@ -21,6 +22,11 @@ export default function AuthPage(): React.ReactNode {
 
   return (
     <Box sx={styles.container}>
+      <Helmet>
+        <title>Team - Boilerplate</title>
+        <meta name="description" content="Join us and start your writing." />
+      </Helmet>
+
       <Box sx={styles.login}>
         <Text text="Login into your account" style={styles.title} />
 

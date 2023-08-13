@@ -15,10 +15,16 @@ import BuyMeACoffee from "../../molecules/pages/BuyMeACoffee";
 import step1 from "../../../assets/images/step1.png";
 import step2 from "../../../assets/images/step2.png";
 import step3 from "../../../assets/images/step3.png";
+import { Helmet } from "react-helmet-async";
 
 export default function HomePage(): React.ReactNode {
   return (
     <BaseLayout>
+      <Helmet>
+        <title>Home - Boilerplate</title>
+        <meta name="description" content="Get ideas for your next writing by using Boilerplate." />
+      </Helmet>
+
       <Hero />
 
       <BuyMeACoffee />

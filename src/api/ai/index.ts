@@ -64,8 +64,12 @@ export const translate = async (prompt: string, language: string) => {
       },
       {
         role: "user",
-        content: `Translate "${prompt}" to ${language}`,
+        content: `Translate the text below into ${language}`,
       },
+      {
+        role: "user",
+        content: `Here is the text: "${prompt}"`,
+      }
     ],
     temperature: 1,
     max_tokens: 1000,

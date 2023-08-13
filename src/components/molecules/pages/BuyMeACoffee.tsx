@@ -61,6 +61,9 @@ const styles: Record<string, SxProps<Theme>> = {
 
     "@keyframes shake": {
       "0%": {
+        transform: "translateX(0px)",
+      },
+      "5%": {
         transform: "translateX(-20px)",
       },
       "10%": {

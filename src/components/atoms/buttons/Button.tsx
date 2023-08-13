@@ -4,7 +4,7 @@ import { Colors } from "../../../constants/colors";
 type ButtonProps = {
   children: React.ReactNode;
   variant?: "outlined" | "contained" | "text";
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLElement>) => void;
   style: SxProps<Theme> | ((theme: Theme) => SxProps<Theme>);
   disabled?: boolean;
   hoverColor?: string;
