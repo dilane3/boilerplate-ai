@@ -6,41 +6,65 @@ import Text from "../../atoms/texts/Text";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkIcon from "@mui/icons-material/Link";
-
-import letter from "../../../assets/images/profil.jpg";
 import Icon from "../../atoms/icons/Icon";
 import Button from "../../atoms/buttons/Button";
+import { Link } from "react-router-dom";
 
-export default function Member() {
+type MemberProps = {
+  member: {
+    id: number;
+    name: string;
+    title: string;
+    country: string;
+    avatar: string;
+    links: {
+      github: string;
+      twitter: string;
+      website?: string;
+    };
+  };
+};
+
+export default function Member({ member }: MemberProps) {
   return (
     <Card sx={styles.container}>
       <CardActionArea disableRipple sx={styles.containerItems}>
         <Box sx={styles.memberRole}>
           <CardMedia
             component="img"
-            image={letter}
+            image={member.avatar}
             alt="Profil"
             sx={styles.memberPicture}
           />
 
           <CardContent sx={{ padding: "0 0 0 10px" }}>
-            <Text text="John Hemrick" style={styles.memberName} />
-            <Text text="Founder of Boilerplate" style={styles.description} />
-            <Text text="From Cameroon" style={styles.description} />
+            <Text text={member.name} style={styles.memberName} />
+            <Text text={member.title} style={styles.description} />
+            <Text text={`From ${member.country}`} style={styles.description} />
           </CardContent>
         </Box>
-        <Box sx={{ width: "100%", my: 2, ...styles.center}}>
-          <Button style={{ height: 50, px: 4 }}>
-            <GitHubIcon sx={{ mr: 1 }} />
-            <Text text="Follow me" style={{ fontFamily: "Lexend Regular" }} />
-          </Button>
+        <Box sx={{ width: "100%", my: 2, ...styles.center }}>
+          <Link to={member.links.github} target="_blank">
+            <Button style={{ height: 50, px: 4 }}>
+              <GitHubIcon sx={{ mr: 1 }} />
+              <Text text="Follow me" style={{ fontFamily: "Lexend Regular" }} />
+            </Button>
+          </Link>
+
           <Box sx={styles.center}>
-            <Icon style={{ fontSize: "24px", color: "#000" }}>
-              <TwitterIcon />
-            </Icon>
-            <Icon style={{ fontSize: "24px", color: "#000" }}>
-              <LinkIcon sx={{ transform: "rotate(-45deg)" }} />
-            </Icon>
+            <Link to={member.links.twitter} target="_blank">
+              <Icon style={{ fontSize: "24px", color: "#000" }}>
+                <TwitterIcon />
+              </Icon>
+            </Link>
+
+            {member.links.website && (
+              <Link to={member.links.website} target="_blank">
+                <Icon style={{ fontSize: "24px", color: "#000" }}>
+                  <LinkIcon sx={{ transform: "rotate(-45deg)" }} />
+                </Icon>
+              </Link>
+            )}
           </Box>
         </Box>
       </CardActionArea>
@@ -77,7 +101,7 @@ const styles: Record<string, SxProps<Theme>> = {
   memberName: {
     fontFamily: "Lexend Bold",
     fontSize: 28,
-    mb: 1
+    mb: 1,
   },
   memberRole: {
     display: "flex",

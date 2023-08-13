@@ -19,6 +19,7 @@ type InputProps = {
   icon?: React.ReactNode;
   width: string | number;
   autoFocus?: boolean;
+  disabled?: boolean;
 };
 
 export default function Input({
@@ -35,6 +36,7 @@ export default function Input({
   icon,
   width,
   autoFocus,
+  disabled,
 }: InputProps) {
   return (
     <TextInput
@@ -54,11 +56,12 @@ export default function Input({
           <InputAdornment position="start">{icon}</InputAdornment>
         ) : undefined,
         style: {
-          fontFamily: "Lexend Regular",
+          fontFamily: "Lato Regular",
           width,
         },
       }}
       autoFocus={autoFocus}
+      disabled={disabled}
     />
   );
 }
@@ -67,7 +70,7 @@ const inputStyles = {
   width: "100%",
   borderRadius: "10px",
   fontSize: "16px",
-  fontFamily: "Lexend Regular",
+  fontFamily: "Lato Regular",
 };
 
 Input.defaultProps = {
@@ -78,4 +81,5 @@ Input.defaultProps = {
   style: {},
   size: "small",
   width: "100%",
+  disabled: false,
 };

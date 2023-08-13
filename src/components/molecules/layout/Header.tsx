@@ -1,7 +1,7 @@
 import {
   Avatar,
   Box,
-  Divider,
+  // Divider,
   Menu,
   MenuItem,
   SxProps,
@@ -10,17 +10,23 @@ import {
 import Text from "../../atoms/texts/Text";
 import Button from "../../atoms/buttons/Button";
 import { Colors, primaryRGBA } from "../../../constants/colors";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useScroll from "../../../hooks/useScroll";
 import { useMemo } from "react";
 import GetAppIcon from "@mui/icons-material/GetApp";
-import { useActions, useSignal } from "@dilane3/gx";
+import { useActions, useOperations, useSignal } from "@dilane3/gx";
 import { AuthActions, AuthState } from "../../../gx/signals/auth/types";
 import { capitalize, truncate } from "../../../utils/string";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+// import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import * as React from "react";
 import { authProvider } from "../../../api/auth";
+import {
+  WritingOperations,
+  WritingState,
+} from "../../../gx/signals/writings/types";
+import { exportToWord } from "../../../utils/export";
+import { toast } from "react-toastify";
 
 type HeaderProps = {
   transparent: boolean;
@@ -32,6 +38,7 @@ export default function Header({
   type,
 }: HeaderProps): React.ReactNode {
   const navigate = useNavigate();
+  const { id: writingId } = useParams();
 
   const scrollableContainer = document.querySelector("body");
   const scrollDistance = useScroll(scrollableContainer);
@@ -42,8 +49,23 @@ export default function Header({
 
   // Global state
   const { user } = useSignal<AuthState>("auth");
-
   const { logout } = useActions<AuthActions>("auth");
+
+  const { writings } = useSignal<WritingState>("writings");
+  const { getWritingById } = useOperations<WritingOperations>("writings");
+
+  // Memoized data
+  const writing = useMemo(() => {
+    if (!writingId) return null;
+
+    return getWritingById(+writingId);
+  }, [writingId, JSON.stringify(writings)]);
+
+  const isReadyToExport = useMemo(() => {
+    if (!writing) return false;
+
+    return writing.content.length > 0;
+  }, [writing]);
 
   const { transparentDegree } = useMemo(() => {
     const max = window.innerHeight - 80;
@@ -75,6 +97,14 @@ export default function Header({
     navigate("/auth");
   };
 
+  const handleExport = () => {
+    if (!writing) return;
+
+    exportToWord(writing.content, writing.description);
+
+    toast.success(`your writing has been exported`);
+  };
+
   return (
     <Box
       sx={styles.container}
@@ -90,7 +120,7 @@ export default function Header({
       <Link to="/">
         <Text
           text="Boilerplate"
-          style={{
+          style={(theme) => ({
             fontFamily: "Lexend Black",
             fontSize: 25,
             color: transparent
@@ -98,15 +128,19 @@ export default function Header({
                 ? Colors.primary
                 : Colors.background
               : Colors.background,
-          }}
+
+            [theme.breakpoints.down("sm")]: {
+              fontSize: 20,
+            },
+          })}
         />
       </Link>
 
       {type === "default" ? (
         <Box component="nav" sx={styles.menu}>
-          <Link to="/pricing">
+          {/* <Link to="/pricing">
             <Text text="PRICING" style={styles.menuItem} />
-          </Link>
+          </Link> */}
 
           <Link to="/team">
             <Text text="CONTACT" style={styles.menuItem} />
@@ -135,11 +169,17 @@ export default function Header({
       ) : (
         user && (
           <Box component="nav" sx={styles.menu}>
-            <Button style={{ ml: 3, mr: 3 }}>
-              <GetAppIcon sx={{ color: Colors.background, mr: 1 }} />
+            {isReadyToExport && (
+              <Button
+                style={styles.exportBtn}
+                hoverColor={Colors.grayLight}
+                onClick={handleExport}
+              >
+                <GetAppIcon sx={{ color: Colors.primary }} />
 
-              <Text text="Export" style={styles.btnText2} />
-            </Button>
+                <Text text="Export" style={styles.btnText2} />
+              </Button>
+            )}
 
             <Avatar
               sx={{ bgcolor: user.color, cursor: "pointer" }}
@@ -173,14 +213,14 @@ export default function Header({
                 },
               }}
             >
-              <MenuItem onClick={handleClose} sx={{ width: 150 }}>
+              {/* <MenuItem onClick={handleClose} sx={{ width: 150 }}>
                 <PersonOutlineOutlinedIcon
                   sx={styles.menuItemIcon}
                   color="action"
                 />
                 <Text style={styles.menuItemText} text="Profile"></Text>
               </MenuItem>
-              <Divider />
+              <Divider /> */}
               <MenuItem onClick={handleLogout}>
                 <LogoutIcon sx={styles.menuItemIcon} color="action" />
                 <Text style={styles.menuItemText} text="Logout"></Text>
@@ -249,22 +289,38 @@ const styles: Record<string, SxProps<Theme>> = {
     },
   },
 
+  exportBtn: {
+    ml: 3,
+    mr: 3,
+    backgroundColor: Colors.background,
+  },
+
   btnText: {
     color: Colors.primary,
     fontFamily: "Lexend Regular",
     fontSize: 15,
   },
 
-  btnText2: {
-    color: Colors.background,
+  btnText2: (theme) => ({
+    color: Colors.primary,
     fontFamily: "Lexend Regular",
     fontSize: 15,
-  },
-  senderName: {
+    ml: 1,
+
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+  }),
+
+  senderName: (theme) => ({
     fontFamily: "Lato Bold",
     paddingLeft: "10px",
     fontSize: 16,
-  },
+
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+  }),
 
   menuItemIcon: {
     fontSize: "1.5rem",

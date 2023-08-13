@@ -1,19 +1,11 @@
 import { createSignal } from "@dilane3/gx";
 import { WritingState } from "./types";
-import Writing, { WritingType } from "../../../entities/writing/Writing";
-
-const letter = new Writing({
-  id: 1,
-  type: WritingType.LETTER,
-  description: "Motivation letter",
-  createdAt: new Date(Date.now()),
-  ownerId: "1",
-});
+import Writing from "../../../entities/writing/Writing";
 
 const writingSignal = createSignal<WritingState>({
   name: "writings",
   state: {
-    writings: [letter],
+    writings: [],
     loading: true,
   },
   actions: {
@@ -35,6 +27,26 @@ const writingSignal = createSignal<WritingState>({
 
       if (index !== -1) {
         state.writings[index] = writing;
+      }
+
+      return state;
+    },
+
+    updateConfig: (state, payload: { writingId: number, config: any }) => {
+      const writing = state.writings.find((w) => w.id === payload.writingId);
+
+      if (writing) {
+        writing.config = payload.config;
+      }
+
+      return state;
+    },
+
+    updateImage: (state, payload: { writingId: number, image: string }) => {
+      const writing = state.writings.find((w) => w.id === payload.writingId);
+
+      if (writing) {
+        writing.image = payload.image;
       }
 
       return state;

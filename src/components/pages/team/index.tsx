@@ -2,10 +2,14 @@ import { Box, Divider, SxProps, Theme } from "@mui/material";
 import Text from "../../atoms/texts/Text";
 import BaseLayout from "../../layouts/BaseLayout";
 import Member from "../../molecules/pages/Member";
+import { team } from "./team.json";
+import BuyMeACoffee from "../../molecules/pages/BuyMeACoffee";
 
 export default function TeamPage(): React.ReactNode {
   return (
     <BaseLayout pt={80} transparent={false}>
+      <BuyMeACoffee />
+
       <Box component="section" sx={styles.container}>
         <Text
           text="Meet the team"
@@ -28,8 +32,11 @@ export default function TeamPage(): React.ReactNode {
         <Divider />
 
         <Box sx={styles.membersContainer}>
-          <Member />
-          <Member />
+          {
+            team.map(member => (
+              <Member key={member.id} member={member} />
+            ))
+          }
         </Box>
       </Box>
     </BaseLayout>

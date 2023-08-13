@@ -34,7 +34,7 @@ export default function Button({
     <BaseButton
       style={{
         fontSize: "16px",
-        fontFamily: "OutfitBold",
+        fontFamily: "Lexend Bold",
       }}
       sx={{
         borderRadius: "100px",

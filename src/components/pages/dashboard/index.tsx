@@ -4,34 +4,53 @@ import Button from "../../atoms/buttons/Button";
 import EditIcon from "@mui/icons-material/Edit";
 import LetterCard from "../../molecules/pages/Letter";
 import DashboardLayout from "../../layouts/DashboardLayout";
-import { useSignal } from "@dilane3/gx";
+import { useActions, useSignal } from "@dilane3/gx";
 import { WritingState } from "../../../gx/signals/writings/types";
-
+import { ModalActions, ModalType } from "../../../gx/signals/modal/types";
+import LetterSkeleton from "../../molecules/pages/LetterSkeletong";
 
 export default function DashbordPage(): React.ReactNode {
   // Global state
-  const { writings } = useSignal<WritingState>("writings");
+  const { writings, loading } = useSignal<WritingState>("writings");
+
+  const { open } = useActions<ModalActions>("modal");
+
+  const handleOpen = () => {
+    open(ModalType.WRITING_CREATE);
+  };
 
   return (
     <DashboardLayout>
       <Box component="section" sx={styles.container}>
         <Text text="Yours writings" style={styles.title} />
-        <Text text="You already have 5 writings" style={styles.subtitle} />
+        <Text
+          text={`You already have ${writings.length} writing${
+            writings.length > 1 ? "s" : ""
+          }`}
+          style={styles.subtitle}
+        />
         <Divider />
 
         <Box sx={styles.writingsContainer}>
-          {
+          {loading ? (
+            <>
+              <LetterSkeleton />
+              <LetterSkeleton />
+              <LetterSkeleton />
+            </>
+          ) : (
             writings.map((writing) => (
-              <LetterCard
-                key={writing.id}
-                letter={writing}
-              />
+              <LetterCard key={writing.id} letter={writing} />
             ))
-          }
+          )}
         </Box>
 
         <Box sx={styles.floatingBtn}>
-          <Button style={{ height: 50, px: 3 }} disabledShadow={false}>
+          <Button
+            style={{ height: 50, px: 3 }}
+            disabledShadow={false}
+            onClick={handleOpen}
+          >
             <EditIcon sx={{ mr: 1 }} />
             <Text text="New Writing" style={{ fontFamily: "Lexend Regular" }} />
           </Button>
@@ -47,6 +66,7 @@ const styles: Record<string, SxProps<Theme>> = {
     flexDirection: "column",
     width: "calc(100% - 200px)",
     padding: "0px 100px",
+    // backgroundColor: "#f5f5f5",
 
     [theme.breakpoints.down("md")]: {
       padding: "0px 50px",
@@ -82,7 +102,7 @@ const styles: Record<string, SxProps<Theme>> = {
     mb: 14,
 
     [theme.breakpoints.down("md")]: {
-      justifyContent:"flex-start",
+      justifyContent: "flex-start",
       alignItems: "center",
       flexDirection: "column",
     },
@@ -92,6 +112,6 @@ const styles: Record<string, SxProps<Theme>> = {
     position: "fixed",
     bottom: 50,
     right: 50,
-    p: 1
+    p: 1,
   },
 };

@@ -4,6 +4,7 @@ import Header from "../molecules/layout/Header";
 import Main from "../molecules/layout/Main";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom"
+import useLoadWritings from "../../hooks/useLoadWritings";
 
 type DashboardLayoutProps = {
   children: React.ReactNode;
@@ -14,6 +15,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   // Global state
   const { user, loading } = useSignal<AuthState>("auth");
+
+  // Custom hooks
+  useLoadWritings();
 
   useEffect(() => {
     if (!user && !loading) {

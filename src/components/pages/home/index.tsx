@@ -10,11 +10,18 @@ import Button from "../../atoms/buttons/Button";
 import Text from "../../atoms/texts/Text";
 import Tutorial from "../../molecules/pages/Tutorial";
 import { Link } from "react-router-dom";
+import BuyMeACoffee from "../../molecules/pages/BuyMeACoffee";
+
+import step1 from "../../../assets/images/step1.png";
+import step2 from "../../../assets/images/step2.png";
+import step3 from "../../../assets/images/step3.png";
 
 export default function HomePage(): React.ReactNode {
   return (
     <BaseLayout>
       <Hero />
+
+      <BuyMeACoffee />
 
       <Box sx={styles.properties}>
         <Box sx={styles.propertyItem}>
@@ -57,6 +64,7 @@ export default function HomePage(): React.ReactNode {
               </Button>
             </Link>
           }
+          image={step1}
         />
 
         <Tutorial
@@ -69,7 +77,21 @@ export default function HomePage(): React.ReactNode {
               </Button>
             </Link>
           }
+          image={step2}
           reverse
+        />
+
+        <Tutorial
+          title="Finally, Generate your writing"
+          description="Provide some informations about what you want and then generate your writing by clicking on the button below."
+          btn={
+            <Link to="/dashboard/writings">
+              <Button style={{ height: 50, px: 4 }}>
+                <Text text="Access to the generator" style={styles.btnText} />
+              </Button>
+            </Link>
+          }
+          image={step3}
         />
       </Box>
 

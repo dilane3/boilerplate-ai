@@ -11,13 +11,17 @@ export default function Hero() {
       <Box sx={styles.top}>
         <Text
           text="Get ideas for yours next writings"
-          style={{
+          style={(theme) => ({
             fontFamily: "Lexend Black",
             fontSize: 70,
             color: "#fff",
             lineHeight: 1.2,
             mb: 3,
-          }}
+
+            [theme.breakpoints.down("sm")]: {
+              fontSize: 50,
+            }
+          })}
         />
 
         <Text

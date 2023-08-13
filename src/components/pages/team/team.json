@@ -1,0 +1,29 @@
+{
+  "team": [
+    {
+      "id": 1,
+      "name": "Dilane Kombou",
+      "title": "Founder of Boilerplate",
+      "country": "Cameroon",
+      "avatar": "/src/assets/images/team/dilanekombou.jpeg",
+      "links": {
+        "github": "https://github.com/dilane3",
+        "twitter": "https://twitter.com/DilaneKombou",
+        "website": "https://dilane3.com"
+      }
+    },
+
+    {
+      "id": 2,
+      "name": "Omer Fotso",
+      "title": "Frontend Developer",
+      "country": "Cameroon",
+      "avatar": "",
+      "links": {
+        "github": "https://github.com/omer-alt",
+        "twitter": "https://twitter.com/BeStrong_Alt",
+        "website": ""
+      }
+    }
+  ]
+}

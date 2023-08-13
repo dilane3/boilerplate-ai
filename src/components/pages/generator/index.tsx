@@ -12,12 +12,15 @@ import { useEffect, useMemo, useState } from "react";
 import { generateLetter } from "../../../api/ai";
 import { formatLetter } from "../../../utils/string";
 import useConvertToPng from "../../../hooks/useConvertToPng";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useActions, useOperations, useSignal } from "@dilane3/gx";
 import { WritingActions, WritingOperations, WritingState } from "../../../gx/signals/writings/types";
 import Writing from "../../../entities/writing/Writing";
+import { writingProvider } from "../../../api/writings";
+import { toast } from "react-toastify";
 
 export default function GeneratorPage(): React.ReactNode {
+  const navigate = useNavigate();
   const { id: writingId } = useParams();
 
   const [showConfig, setShowConfig] = useState(false);
@@ -26,22 +29,40 @@ export default function GeneratorPage(): React.ReactNode {
   // Global state
   const { writings } = useSignal<WritingState>("writings");
   const { getWritingById } = useOperations<WritingOperations>("writings");
-  const { updateWriting } = useActions<WritingActions>("writings");
+  const { updateWriting, updateImage } = useActions<WritingActions>("writings");
 
   // Memoized data
   const writing = useMemo(() => {
     if (!writingId) return null;
 
-    return getWritingById(+writingId);
+    const writing = getWritingById(+writingId);
+
+    if (!writing) {
+      navigate("/dashboard/writings")
+
+      return null;
+    }
+
+    return writing
   }, [writingId, JSON.stringify(writings)]);
 
   // Custom hooks
   const image = useConvertToPng(writing);
 
   useEffect(() => {
-    if (image) {
-      localStorage.setItem("image", image);
+    const update = async () => {
+      if (image && writing) {
+        updateImage({ writingId: writing.id, image });
+  
+        const updatedWriting = new Writing(writing.toJSON());
+  
+        updatedWriting.image = image;
+
+        await handleUpdateWriting(updatedWriting);
+      }
     }
+
+    update();
   }, [image]);
 
   // Some handlers
@@ -70,6 +91,15 @@ export default function GeneratorPage(): React.ReactNode {
       console.log(error);
     }
   };
+
+  const handleUpdateWriting = async (writing: Writing) => {
+      // Update writing into supabase
+      const { error } = await writingProvider.update(writing);
+
+      console.log(error)
+
+      if (error) toast.error("An error occured while updating your writing");
+  }
 
   if (!writing) return null
 
