@@ -8,6 +8,7 @@ import { useActions, useSignal } from "@dilane3/gx";
 import { WritingState } from "../../../gx/signals/writings/types";
 import { ModalActions, ModalType } from "../../../gx/signals/modal/types";
 import LetterSkeleton from "../../molecules/pages/LetterSkeletong";
+import { Helmet } from "react-helmet-async";
 
 export default function DashbordPage(): React.ReactNode {
   // Global state
@@ -21,6 +22,11 @@ export default function DashbordPage(): React.ReactNode {
 
   return (
     <DashboardLayout>
+      <Helmet>
+        <title>Dashboard - Boilerplate</title>
+        <meta name="description" content="Have access to all your writings" />
+      </Helmet>
+
       <Box component="section" sx={styles.container}>
         <Text text="Yours writings" style={styles.title} />
         <Text

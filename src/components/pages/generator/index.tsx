@@ -18,6 +18,7 @@ import { WritingActions, WritingOperations, WritingState } from "../../../gx/sig
 import Writing from "../../../entities/writing/Writing";
 import { writingProvider } from "../../../api/writings";
 import { toast } from "react-toastify";
+import { Helmet } from "react-helmet-async";
 
 export default function GeneratorPage(): React.ReactNode {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ export default function GeneratorPage(): React.ReactNode {
 
   const [showConfig, setShowConfig] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [writingLoaded, setWritingLoaded] = useState(false);
 
   // Global state
   const { writings } = useSignal<WritingState>("writings");
@@ -37,11 +39,7 @@ export default function GeneratorPage(): React.ReactNode {
 
     const writing = getWritingById(+writingId);
 
-    if (!writing) {
-      navigate("/dashboard/writings")
-
-      return null;
-    }
+    setWritingLoaded(true);
 
     return writing
   }, [writingId, JSON.stringify(writings)]);
@@ -64,6 +62,12 @@ export default function GeneratorPage(): React.ReactNode {
 
     update();
   }, [image]);
+
+  useEffect(() => {
+    if (writingLoaded && !writing) {
+      navigate("/dashboard/writings")
+    }
+  }, [writingLoaded, writing])
 
   // Some handlers
 
@@ -105,6 +109,11 @@ export default function GeneratorPage(): React.ReactNode {
 
   return (
     <DashboardLayout>
+      <Helmet>
+        <title>Generator - Boilerplate</title>
+        <meta name="description" content="Generate your writing easily" />
+      </Helmet>
+
       <Box sx={styles.container}>
         <Box sx={styles.board}>
           <Paper loading={loading} text={formatLetter(writing.content)} />

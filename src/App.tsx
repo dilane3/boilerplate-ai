@@ -6,32 +6,35 @@ import LoadLayout from "./components/layouts/LoadLayout";
 import ModalProvider from "./components/molecules/modals/ModalProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { HelmetProvider } from "react-helmet-async";
 
 function App() {
   return (
-    <GXProvider store={store}>
-      <LoadLayout>
-        <Router>
-          <Routes>
-            {router.map((route, index) => (
-              <Route key={index} path={route.path} element={route.element} />
-            ))}
+    <HelmetProvider>
+      <GXProvider store={store}>
+        <LoadLayout>
+          <Router>
+            <Routes>
+              {router.map((route, index) => (
+                <Route key={index} path={route.path} element={route.element} />
+              ))}
 
-            <Route path="*" element={<h1>404</h1>} />
-          </Routes>
-        </Router>
+              <Route path="*" element={<h1>404</h1>} />
+            </Routes>
+          </Router>
 
-        <ModalProvider />
-        <ToastContainer 
-          position="bottom-right"
-          // autoClose={5000}
-          hideProgressBar={true}
-          newestOnTop={false}
-          closeOnClick={true}
-          pauseOnFocusLoss={true}
-        />
-      </LoadLayout>
-    </GXProvider>
+          <ModalProvider />
+          <ToastContainer 
+            position="bottom-right"
+            // autoClose={5000}
+            hideProgressBar={true}
+            newestOnTop={false}
+            closeOnClick={true}
+            pauseOnFocusLoss={true}
+          />
+        </LoadLayout>
+      </GXProvider>
+    </HelmetProvider>
   );
 }
 
