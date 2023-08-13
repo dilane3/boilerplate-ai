@@ -12,7 +12,7 @@ import { useEffect, useMemo, useState } from "react";
 import { generateLetter } from "../../../api/ai";
 import { formatLetter } from "../../../utils/string";
 import useConvertToPng from "../../../hooks/useConvertToPng";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useActions, useOperations, useSignal } from "@dilane3/gx";
 import { WritingActions, WritingOperations, WritingState } from "../../../gx/signals/writings/types";
 import Writing from "../../../entities/writing/Writing";
@@ -20,6 +20,7 @@ import { writingProvider } from "../../../api/writings";
 import { toast } from "react-toastify";
 
 export default function GeneratorPage(): React.ReactNode {
+  const navigate = useNavigate();
   const { id: writingId } = useParams();
 
   const [showConfig, setShowConfig] = useState(false);
@@ -34,7 +35,15 @@ export default function GeneratorPage(): React.ReactNode {
   const writing = useMemo(() => {
     if (!writingId) return null;
 
-    return getWritingById(+writingId);
+    const writing = getWritingById(+writingId);
+
+    if (!writing) {
+      navigate("/dashboard/writings")
+
+      return null;
+    }
+
+    return writing
   }, [writingId, JSON.stringify(writings)]);
 
   // Custom hooks

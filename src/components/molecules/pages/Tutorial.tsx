@@ -1,4 +1,4 @@
-import { Box, SxProps, Theme } from "@mui/material";
+import { Box, CardMedia, SxProps, Theme } from "@mui/material";
 import Text from "../../atoms/texts/Text";
 import { Colors } from "../../../constants/colors";
 
@@ -7,18 +7,27 @@ type TutorialProps = {
   title: string;
   description: string;
   btn: React.ReactNode;
-}
- 
-export default function Tutorial({ reverse, title, description, btn }: TutorialProps): React.ReactNode {
+  image: string;
+};
+
+export default function Tutorial({
+  reverse,
+  title,
+  description,
+  btn,
+  image,
+}: TutorialProps): React.ReactNode {
   const style = reverse ? styles.containerReverse : styles.container;
 
   return (
     <Box component="section" sx={style}>
-      <Box sx={styles.left}></Box>
+      <Box sx={styles.left}>
+        <CardMedia component="img" width="70%" image={image} alt="step" />
+      </Box>
       <Box sx={styles.right}>
         <Text text={title} style={styles.title} />
         <Text text={description} style={styles.description} />
-        
+
         {btn}
       </Box>
     </Box>
@@ -34,7 +43,7 @@ const styles: Record<string, SxProps<Theme>> = {
 
     [theme.breakpoints.down("md")]: {
       flexDirection: "column",
-    }
+    },
   }),
 
   containerReverse: (theme) => ({
@@ -46,15 +55,22 @@ const styles: Record<string, SxProps<Theme>> = {
 
     [theme.breakpoints.down("md")]: {
       flexDirection: "column",
-    }
+    },
   }),
 
   left: (theme) => ({
     width: "50%",
     minHeight: 400,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
 
     [theme.breakpoints.down("md")]: {
       width: "100%",
+    },
+
+    [theme.breakpoints.down("sm")]: {
+      minHeight: 200,
     }
   }),
 
@@ -69,7 +85,7 @@ const styles: Record<string, SxProps<Theme>> = {
     [theme.breakpoints.down("md")]: {
       width: "100%",
       alignItems: "center",
-    }
+    },
   }),
 
   title: (theme) => ({
@@ -81,7 +97,7 @@ const styles: Record<string, SxProps<Theme>> = {
 
     [theme.breakpoints.down("md")]: {
       textAlign: "center",
-    }
+    },
   }),
 
   description: (theme) => ({
@@ -93,7 +109,7 @@ const styles: Record<string, SxProps<Theme>> = {
 
     [theme.breakpoints.down("md")]: {
       textAlign: "center",
-    }
+    },
   }),
 
   btnText: {
