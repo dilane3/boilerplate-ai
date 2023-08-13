@@ -32,6 +32,16 @@ const writingSignal = createSignal<WritingState>({
       return state;
     },
 
+    updateContent: (state, payload: { writingId: number, content: string }) => {
+      const writing = state.writings.find((w) => w.id === payload.writingId);
+
+      if (writing) {
+        writing.content = payload.content;
+      }
+
+      return state;
+    },
+
     updateConfig: (state, payload: { writingId: number, config: any }) => {
       const writing = state.writings.find((w) => w.id === payload.writingId);
 

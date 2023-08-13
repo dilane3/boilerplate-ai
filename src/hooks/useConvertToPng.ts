@@ -7,7 +7,7 @@ export default function useConvertToPng(writing: Writing | null) {
 
   useEffect(() => {
     convertToPng();
-  }, [writing]);
+  }, [writing?.content]);
 
   const convertToPng = () => {
     const node = document.getElementById("letter");

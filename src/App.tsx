@@ -6,11 +6,24 @@ import LoadLayout from "./components/layouts/LoadLayout";
 import ModalProvider from "./components/molecules/modals/ModalProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { HelmetProvider } from "react-helmet-async";
+import { HelmetProvider, Helmet } from "react-helmet-async";
+import favicon from "./assets/images/favicon.ico";
 
 function App() {
   return (
     <HelmetProvider>
+      <Helmet>
+        <title>Boilerplate</title>
+        <link rel="icon" href={favicon} />
+
+        <meta
+          name="description"
+          content="Online tool that helps you to write yours letters in an easy way"
+        />
+        <meta name="keywords" content="letter, writing, generator" />
+        <meta name="author" content="Dilane Kombou" />
+      </Helmet>
+
       <GXProvider store={store}>
         <LoadLayout>
           <Router>
@@ -24,7 +37,7 @@ function App() {
           </Router>
 
           <ModalProvider />
-          <ToastContainer 
+          <ToastContainer
             position="bottom-right"
             // autoClose={5000}
             hideProgressBar={true}
